@@ -1,0 +1,17 @@
+{
+  "name": "valendar",
+  "version": "1.0.0",
+  "description": "habit tracking app",
+  "main": "script.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Madeleine Barr",
+  "license": "ISC"
+}

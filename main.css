@@ -1,0 +1,319 @@
+/* body {
+    font-family: Helvetica;
+} */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 12px;
+}
+
+.columnlayout {
+  display: grid;
+  grid-template-areas: "goals schedule assessment";
+  /* grid-template-columns: repeat(3, 1fr); */
+  grid-template-columns: 20% 1fr 20%;
+}
+
+.moodtracker {
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: lavenderblush;
+}
+
+.goals {
+  grid-area: goals;
+  background-color: lavender;
+}
+
+.goalstext {
+  margin-top: 100px;
+}
+
+.assessmenttext {
+  margin-top: 100px;
+}
+
+.goalsheading {
+  font-size: 15px;
+  font-weight: 600;
+}
+/* 
+.weeklygoals,
+.monthlygoals,
+.yearlygoals {
+  height: 200px;
+} */
+
+.schedule {
+  grid-area: schedule;
+  background-color: mintcream;
+}
+
+.datenoteslayout {
+  display: grid;
+  grid-template-areas:
+    "datebar"
+    "notes";
+}
+
+.datebar {
+  grid-area: datebar;
+  background-color: aliceblue;
+  height: 132px;
+}
+
+.notes {
+  grid-area: notes;
+  background-color: antiquewhite;
+}
+
+.notestext {
+  display: flex;
+  justify-content: center;
+  height: 150px;
+  margin-left: 15px;
+}
+
+.schedulelayout {
+  display: grid;
+  grid-template-areas: "plan result";
+  grid-template-columns: 1fr 1fr;
+}
+
+.plan {
+  grid-area: plan;
+  background-color: bisque;
+  height: 440px;
+}
+
+.result {
+  grid-area: result;
+  background-color: floralwhite;
+}
+
+.assessment {
+  grid-area: assessment;
+  background-color: cornsilk;
+}
+
+.centertext {
+  text-align: center;
+}
+
+.todaysdate {
+  font-size: 25px;
+}
+
+.graphcontainer {
+  display: flex;
+  justify-content: center;
+}
+
+/* journal input */
+
+#notesinput {
+  width: 700px;
+  height: 120px;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  margin-top: 15px;
+}
+
+#notesinput:focus {
+  outline: none;
+}
+
+/* start of mood tracker graph*/
+
+/*css variables defined in the root*/
+
+:root {
+  --square-size: 15px;
+  /* --square-size: 10px; */
+  --square-gap: 5px;
+  /* --square-gap: 5px; */
+  --week-width: calc(var(--square-size) + var(--square-gap));
+}
+
+/* we start by naming each area of the graph*/
+
+/* we're going to lay out the three areas of the main graph 
+(the days column, the months row, and the squares)
+using grid-template-areas, which allows us to define where the different
+areas of a grid fall.*/
+
+.graph ul {
+  list-style: none;
+}
+
+.months {
+  grid-area: months;
+  display: grid;
+  /*this made it horizontal*/
+  grid-template-columns:
+    calc(var(--week-width) * 4) /* Jan */
+    calc(var(--week-width) * 4) /* Feb */
+    calc(var(--week-width) * 4) /* Mar */
+    calc(var(--week-width) * 5) /* Apr */
+    calc(var(--week-width) * 4) /* May */
+    calc(var(--week-width) * 4) /* Jun */
+    calc(var(--week-width) * 5) /* Jul */
+    calc(var(--week-width) * 4) /* Aug */
+    calc(var(--week-width) * 4) /* Sep */
+    calc(var(--week-width) * 5) /* Oct */
+    calc(var(--week-width) * 4) /* Nov */
+    calc(var(--week-width) * 5) /* Dec */;
+  margin-bottom: -15px;
+}
+
+.days {
+  grid-area: days;
+  display: grid;
+  grid-template-rows: repeat(7, var(--square-size));
+  gap: var(--square-gap);
+  margin-right: -40px;
+}
+
+.squares {
+  grid-area: squares;
+  display: grid;
+  gap: var(--square-gap);
+  grid-template-rows: repeat(7, var(--square-size));
+  grid-auto-flow: column;
+  grid-auto-columns: var(--square-size);
+}
+
+/* using these names, we can write out how we want the areas to be laid out*/
+/*the grid-template-areas property accepts space separated strings*/
+/* each string represents a row, and within each string we have columns*/
+
+.graph {
+  display: inline-grid;
+  grid-template-areas:
+    "empty months"
+    "days squares";
+  gap: 10px;
+  grid-template-columns: auto 1fr;
+
+  padding: 20px;
+  border: 1px #e1e4e8 solid;
+  /* margin: 20px; */
+}
+
+.days li:nth-child(odd) {
+  visibility: hidden;
+}
+
+.squares li {
+  background-color: #ebedf0;
+}
+
+.squares li[data-level="1"] {
+  background-color: #c6e48b;
+}
+
+.squares li[data-level="2"] {
+  background-color: #7bc96f;
+}
+
+.squares li[data-level="3"] {
+  background-color: #196127;
+}
+
+/* if we want a grid area name that doesn't correspond to an actual grid area,
+we can essentialy create a phantom element, which is what "empty" is in this case*/
+
+/* we want the first column to only take up as much space as it needs given the content within it,
+(meaning the empty + days column)
+but we want the second column to fill up the rest of the available space
+(meaning the months and squares column)*/
+
+/* here we are making a custom property, --square-size, which 
+contains a value that can be used in other declarations with 
+var(--square-size). We're setting it in the root element so 
+that the property can be accessed throughout the document*/
+
+/* unlike the list of days, the amount of space taken up by 
+each month column is not so straightforward. Ideally, we'd
+want each month to take up the equivalent of 4 columns to represent 4 weeks.
+However, each month doesn't span across exactly 4 even weeks.
+This could probably be improved with javascript/relying on real data*/
+
+/* "shopping list" / wish list css */
+
+.weeklyGoals {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* .weekly-goals-list {
+  background: white; 
+  /* padding: 3rem; */
+/* border-radius: 1rem; */
+
+/* width: 300px; */
+/* margin: 4rem 0;
+} */
+
+.weekly-goals-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+
+.shopping-item {
+  padding: 5px 0px;
+  /* padding: 1rem 0; */
+  /* display: grid; */
+  /* grid-template-columns: auto 1fr auto;
+  grid-gap: 1rem;
+  align-items: center; */
+}
+
+.shopping-item input[type="checkbox"] {
+  margin-right: 1rem;
+}
+
+.shopping-item input[type="checkbox"]:checked + .itemName {
+  opacity: 0.5;
+}
+
+.shopping-item button {
+  /* padding: 0; */
+  /* width: 5px; */
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+/* .shopping-item button:hover {
+  transform: scale(1.4);
+} */
+
+/* my shopping list css*/
+
+.weeklyGoals input {
+  border: none;
+}
+
+.weeklyGoals input:focus {
+  outline: none;
+}
+
+.weeklyList button {
+  border: none;
+  float: right;
+}
+
+.weeklyGoals button[type="submit"] {
+  background: pink;
+  border: 1px solid grey;
+}
+
+.weeklyGoals button[type="submit"]:hover {
+  background-color: paleturquoise;
+}
