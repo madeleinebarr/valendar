@@ -82,26 +82,20 @@ datebar.appendChild(yearProgress);
 
 // we will be able to insert specific colors on specific days
 
-/*
-how you do a multiline
-comment? yes */
-
-// shopping list (goals list)
-
-// selecting the items we need: shopping form and list
-
-// const testingHyphen = document.querySelector(['.weekly-goals-list']);
-
 const weeklyGoalsForm = document.querySelector('.weeklyGoals');
 const weeklyList = document.querySelector('.weeklyList');
 
 const monthlyGoalsForm = document.querySelector('.monthlyGoals');
 const monthlyList = document.querySelector('.monthlyList');
 
+const yearlyGoalsForm = document.querySelector('.yearlyGoals');
+const yearlyList = document.querySelector('.yearlyList');
+
 // need an array to hold all of our items (our state)
 
 let weeklyItems = [];
-const monthlyItems = [];
+let monthlyItems = [];
+let yearlyItems = [];
 
 // listen for a submit event on the form and do a bunch of stuff when that happens
 // here, the e being passed in is the event
@@ -118,12 +112,7 @@ function handleSubmit(e) {
     complete: false,
   };
 
-  // weeklyItems.push(item);
-  // console.log(`There are now ${weeklyItems.length} weekly items in your state`);
-
-  // commenting out to try to pass in parameter
   const pushItems = () => {
-    // console.log(this.classList[0] === 'weeklyGoals');
     if (this.classList[0] === 'weeklyGoals') {
       weeklyItems.push(item);
       console.log(`There are now ${weeklyItems.length} weekly items in your state`);
@@ -134,6 +123,11 @@ function handleSubmit(e) {
       console.log(`There are now ${monthlyItems.length} monthly items in your state`);
       console.log('You are on the monthly goals list');
       monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+    } else if (this.classList[0] === 'yearlyGoals') {
+      yearlyItems.push(item);
+      console.log(`There are now ${yearlyItems.length} yearly items in your state`);
+      console.log('You are on the yearly goals list');
+      yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
     } else {
       console.log('It appears you are not on any list');
     }
@@ -142,114 +136,8 @@ function handleSubmit(e) {
   pushItems();
 
   // clear the form
-  // e.currentTarget.item.value = '';
-  // the target is the form
   e.target.reset();
-
-  // fire off a custom event that will tell
-  // anyone else who cares that the items have been updated
-
-  // ORIGINAL VERY IMPORTANT-- TRYING SOMETHING NEW
-  // weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
-  // this.nextElementSibling.dispatchEvent(new CustomEvent('itemsUpdated'));
-
-  // console.log(this.classList[0]);
-  // console.log(this.classList[0].toString());
-  // console.log(`.${this.classList[0]}`);
-
-  // console.log(document.querySelector(`.${this.classList[0]}`));
-
-  // console.log(document.querySelector(this.classList[0]));
-
-  // const weeklyList = document.querySelector('.weeklyList');
 }
-
-// display our items
-
-// function displayItems() {
-//   const html = items.forEach(function() {
-//     return `<li>${item.name}</li>`
-//   })
-// }
-
-// function displayItems() {
-// build out a conditional for this using console log
-// and making sure the arrow function grabs the correct this
-// console.log(items);
-// console.log(this.classList[0] === 'weeklyList');
-
-// const html = weeklyItems.map((item) => `<li class="shopping-item">
-// <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
-// <span class="itemName">  ${item.name} </span>
-// <button aria-label="remove ${item.name}"
-// value="${item.id}"
-// >&times;</button>
-// </li>`).join('');
-// let html;
-
-// const createHTML = () => {
-//   if (this.classList[0] === 'weeklyList') {
-//     html = weeklyItems.map((item) => `<li class="shopping-item">
-// <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
-// <span class="itemName">  ${item.name} </span>
-// <button aria-label="remove ${item.name}"
-// value="${item.id}"
-// >&times;</button>
-// </li>`).join('');
-//     weeklyList.innerHTML = html;
-//   } else if (this.classList[0] === 'monthlyList') {
-//     html = monthlyItems.map((item) => `<li class="shopping-item">
-// <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
-// <span class="itemName">  ${item.name} </span>
-// <button aria-label="remove ${item.name}"
-// value="${item.id}"
-// >&times;</button>
-// </li>`).join('');
-//     monthlyList.innerHTML = html;
-//   } else {
-//     console.log('it appears you are not on any list');
-//   }
-// };
-
-// createHTML();
-
-// console.log(html);
-
-// ORIGINAL VERY IMPORTANT-- TRYING SOMETHING NEW
-// weeklyList.innerHTML = html;
-// this.innerHTML = html;
-
-// this.innerHTML = html;
-
-// console.log(this);
-
-// console.log(items);
-// const html = weeklyItems.map((item) => `<li class="shopping-item">
-//  <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
-//  <span class="itemName">  ${item.name} </span>
-//  <button aria-label="remove ${item.name}"
-//  value="${item.id}"
-//  >&times;</button>
-//  </li>`).join('');
-// console.log(html);
-
-// ORIGINAL VERY IMPORTANT-- TRYING SOMETHING NEW
-// weeklyList.innerHTML = html;
-//  this.innerHTML = html;
-// console.log(this);
-// }
-
-// function displayMonthlyItems() {
-//   const html = monthlyItems.map((item) => `<li class="shopping-item">
-//   <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
-//   <span class="itemName">  ${item.name} </span>
-//   <button aria-label="remove ${item.name}"
-//   value="${item.id}"
-//   >&times;</button>
-//   </li>`).join('');
-
-//   monthlyList.innerhtml = html;
-// }
 
 function displayWeeklyItems() {
   const html = weeklyItems.map((item) => `<li class="shopping-item">
@@ -273,81 +161,134 @@ function displayMonthlyItems() {
   monthlyList.innerHTML = html;
 }
 
-// we might have to split up into multiple storage items
-// for weekly, monthly, yearly
+function displayYearlyItems() {
+  const html = yearlyItems.map((item) => `<li class="shopping-item">
+  <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+  <span class="itemName">  ${item.name} </span>
+  <button aria-label="remove ${item.name}"
+  value="${item.id}"
+  >&times;</button>
+  </li>`).join('');
+  yearlyList.innerHTML = html;
+}
+
 function mirrorToLocalStorage() {
   console.info('saving items to localstorage');
-  localStorage.setItem('weeklyItems', JSON.stringify(weeklyItems));
+  if (this.classList[0] === 'weeklyList') {
+    localStorage.setItem('weeklyItems', JSON.stringify(weeklyItems));
+    console.log('we pushed weekly items to local storage');
+  } else if (this.classList[0] === 'monthlyList') {
+    localStorage.setItem('monthlyItems', JSON.stringify(monthlyItems));
+    console.log('we pushed monthly items to local storage');
+  } else if (this.classList[0] === 'yearlyList') {
+    localStorage.setItem('yearlyItems', JSON.stringify(yearlyItems));
+    console.log('we pushed yearly items to local storage');
+  }
+  console.log(this.classList[0]);
 }
 
 function restoreFromLocalStorage() {
-  // console.log(`local storage this:${this}`);
   console.info('restoring from local storage');
   // pull the items from local storage
-  const lsItems = JSON.parse(localStorage.getItem('weeklyItems'));
-  if (lsItems.length) {
-    // items = lsItems;
-    // lsItems.forEach(item => items.push(item);
-    // items.push(lsItems[0]);
-    weeklyItems.push(...lsItems);
+  const weeklyLSItems = JSON.parse(localStorage.getItem('weeklyItems'));
+  if (weeklyLSItems.length) {
+    weeklyItems.push(...weeklyLSItems);
     weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
-    // add items back to the other two lists, might be some conditional logic there
   }
-  // i think we need to have weeklyList, monthlyList, yearlyList and restore everything
-  // to local storage from there
-  // that's actually a way we could do this for a lot of different function
+
+  const monthlyLSItems = JSON.parse(localStorage.getItem('monthlyItems'));
+  if (monthlyLSItems.length) {
+    monthlyItems.push(...monthlyLSItems);
+    monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  }
+
+  const yearlyLSItems = JSON.parse(localStorage.getItem('yearlyItems'));
+  if (yearlyLSItems.length) {
+    yearlyItems.push(...yearlyLSItems);
+    yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  }
 }
 
 function deleteItem(id) {
   console.log('deleting item!', id);
-  // console.log(`deleteItem this:${this}`);
-
-  // if the id of the item is equal to the one passed in, we keep it
+  // if the id of the item is not equal to the one passed in, we keep it
   weeklyItems = weeklyItems.filter((item) => item.id !== id);
   console.log(weeklyItems);
   weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+
+  monthlyItems = monthlyItems.filter((item) => item.id !== id);
+  console.log(monthlyItems);
+  monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+
+  yearlyItems = yearlyItems.filter((item) => item.id !== id);
+  console.log(yearlyItems);
+  yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
 }
 
-function markAsComplete(id) {
+function weeklyMarkAsComplete(id) {
   console.log('marking as complete', id);
   console.log(`markAsComplete this: ${this}`);
   // find reference to the id that was passed in
-  const itemRef = weeklyItems.find((item) => item.id === id);
+  const weeklyItemRef = weeklyItems.find((item) => item.id === id);
   // setting it to the opposite of itself so it toggles
-  itemRef.complete = !itemRef.complete;
+  weeklyItemRef.complete = !weeklyItemRef.complete;
   weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  console.log(`Weekly item ref here: ${weeklyItemRef.value}`);
 }
 
-// we don't listen for click or enter or anything on forms
-// because it's much easier to listen for the submit event
-// if you submit it in any way, it will work
+function monthlyMarkAsComplete(id) {
+  const monthlyItemRef = monthlyItems.find((item) => item.id === id);
+  monthlyItemRef.complete = !monthlyItemRef.complete;
+  monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+}
+
+function yearlyMarkAsComplete(id) {
+  const yearlyItemRef = yearlyItems.find((item) => item.id === id);
+  yearlyItemRef.complete = !yearlyItemRef.complete;
+  yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+}
+
 weeklyGoalsForm.addEventListener('submit', handleSubmit);
 weeklyList.addEventListener('itemsUpdated', displayWeeklyItems);
 weeklyList.addEventListener('itemsUpdated', mirrorToLocalStorage);
 
 monthlyGoalsForm.addEventListener('submit', handleSubmit);
 monthlyList.addEventListener('itemsUpdated', displayMonthlyItems);
+monthlyList.addEventListener('itemsUpdated', mirrorToLocalStorage);
 
-// listening on the <ul> and delegating
-// the delete event to the button
-// event delegation: we listen for the click on the list ul
-// but then delegate the click over to the button is that is
-// what was clicked
+yearlyGoalsForm.addEventListener('submit', handleSubmit);
+yearlyList.addEventListener('itemsUpdated', displayYearlyItems);
+yearlyList.addEventListener('itemsUpdated', mirrorToLocalStorage);
+
 weeklyList.addEventListener('click', (e) => {
   const id = parseInt(e.target.value);
   if (e.target.matches('button')) {
     deleteItem(id);
   }
   if (e.target.matches('input[type="checkbox"]')) {
-    markAsComplete(id);
+    weeklyMarkAsComplete(id);
+  }
+});
+
+monthlyList.addEventListener('click', (e) => {
+  const id = parseInt(e.target.value);
+  if (e.target.matches('button')) {
+    deleteItem(id);
+  }
+  if (e.target.matches('input[type="checkbox"]')) {
+    monthlyMarkAsComplete(id);
+  }
+});
+
+yearlyList.addEventListener('click', (e) => {
+  const id = parseInt(e.target.value);
+  if (e.target.matches('button')) {
+    deleteItem(id);
+  }
+  if (e.target.matches('input[type="checkbox"]')) {
+    yearlyMarkAsComplete(id);
   }
 });
 
 // run on pageload
 restoreFromLocalStorage();
-
-function testing(item) {
-  console.log(typeof item);
-}
-
-testing(weeklyList);

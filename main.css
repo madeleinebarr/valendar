@@ -243,7 +243,7 @@ This could probably be improved with javascript/relying on real data*/
 
 /* "shopping list" / wish list css */
 
-.weeklyGoals {
+.goalsForm {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
@@ -259,7 +259,7 @@ This could probably be improved with javascript/relying on real data*/
 /* margin: 4rem 0;
 } */
 
-.weekly-goals-list ul {
+.goals-list ul {
   list-style: none;
   margin: 0;
   padding: 10px;
@@ -296,24 +296,28 @@ This could probably be improved with javascript/relying on real data*/
 
 /* my shopping list css*/
 
-.weeklyGoals input {
+.goalsForm input {
   border: none;
 }
 
-.weeklyGoals input:focus {
+.goalsForm input:focus {
   outline: none;
 }
 
-.weeklyList button {
+.goalsList button {
   border: none;
   float: right;
 }
 
-.weeklyGoals button[type="submit"] {
+.goalsForm button[type="submit"] {
   background: pink;
   border: 1px solid grey;
 }
 
-.weeklyGoals button[type="submit"]:hover {
+.goalsForm button[type="submit"]:hover {
   background-color: paleturquoise;
+}
+
+.goalsForm button[type="submit"]:focus {
+  outline: none;
 }
