@@ -397,6 +397,10 @@ const schedulePlan = document.querySelector('.plan');
 
 const timeArray = ['7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM'];
 
+// /* eslint-disable */
+const scheduleItems = [];
+//   /* eslint-enable */
+
 timeArray.forEach((time) => {
   const planDiv = document.createElement('div');
   planDiv.classList.add(`scheduleOutput${time}`);
@@ -408,9 +412,15 @@ timeArray.forEach((time) => {
       <button type="submit">+</button>
       </form>
   `;
+  scheduleItems[time] = [];
+  // console.log(scheduleItems[time]);
 });
 
 const scheduleForms = document.querySelectorAll('.scheduleForm');
+
+// /* eslint-disable */
+//   let scheduleItems = [];
+//   /* eslint-enable */
 
 scheduleForms.forEach((form) => {
   // selecting the schedule forms
@@ -420,8 +430,12 @@ scheduleForms.forEach((form) => {
   // console.log(scheduleOutput);
   // creating the scheduleItems array
   /* eslint-disable */
-  let scheduleItems = [];
+  // let scheduleItems = [];
+  // scheduleItems.scheduleForm = [];
+  // console.log(scheduleItems);
   /* eslint-enable */
+
+  let scheduleItem = {};
 
   // handling submit for schedule items
   function handleScheduleSubmit(e) {
@@ -429,28 +443,33 @@ scheduleForms.forEach((form) => {
     const name = e.currentTarget.item.value;
     if (!name) { return; }
 
-    const scheduleItem = {
+    scheduleItem = {
       name,
       id: Date.now(),
       complete: false,
       time: e.currentTarget.item.id,
     };
+    // console.log(scheduleItem.time);
 
     const pushScheduleItems = () => {
-      scheduleItems.push(scheduleItem);
-      // console.log(`There are now ${scheduleItems.length} schedule items in your state`);
+      scheduleItems[`${scheduleItem.time}`].push(scheduleItem);
+      /* eslint-disable */
+      // console.log(`There are now ${scheduleItems[scheduleItem.time].length} schedule items in your state`);
+       /* eslint-enable */
       scheduleOutput.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
     };
 
     pushScheduleItems();
 
     e.target.reset();
+    // console.log(scheduleItems[scheduleItem.time]);
+    // console.log(scheduleItems);
   }
 
   scheduleForm.addEventListener('submit', handleScheduleSubmit);
 
   function displayScheduleItems() {
-    const html = scheduleItems.map((item) => `<li class="schedule-item">
+    const html = scheduleItems[scheduleItem.time].map((item) => `<li class="schedule-item">
   <label>${item.time}</label>
   <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
   <span class="itemName">  ${item.name} </span>
@@ -461,20 +480,114 @@ scheduleForms.forEach((form) => {
     scheduleOutput.innerHTML = html;
   }
 
-  // function mirrorScheduleToLocalStorage() {
-  //   localStorage.setItem('scheduleItems', JSON.stringify(scheduleItems));
-  // }
+  function mirrorScheduleToLocalStorage() {
+    localStorage.setItem(`scheduleItems[${scheduleItem.time}]`, JSON.stringify(scheduleItems[scheduleItem.time]));
+  }
 
   // function restoreScheduleFromLocalStorage() {
-  //   const scheduleLSItems = JSON.parse(localStorage.getItem('scheduleItems'));
+  //   console.log(scheduleItems[scheduleItem.time]);
+  // }
+
+  // restoreScheduleFromLocalStorage();
+
+  // function restoreScheduleFromLocalStorage() {
+  //   const scheduleLSItems = JSON.parse(localStorage.getItem(`scheduleItems[${scheduleItem.time}]`));
   //   if (scheduleLSItems.length) {
-  //     scheduleItems.push(...scheduleLSItems);
+  //     scheduleItems[scheduleItem.time].scheduleForm.push(...scheduleLSItems);
   //     scheduleOutput.dispatchEvent(new CustomEvent('itemsUpdated'));
   //   }
   // }
 
   scheduleOutput.addEventListener('scheduleItemsUpdated', displayScheduleItems);
-  // scheduleOutput.addEventListener('scheduleItemsUpdated', mirrorScheduleToLocalStorage);
-
-  // restoreScheduleFromLocalStorage();
+  scheduleOutput.addEventListener('scheduleItemsUpdated', mirrorScheduleToLocalStorage);
 });
+
+// function restoreScheduleFromLocalStorage() {
+//   const LSscheduleItems7AM = JSON.parse(localStorage.getItem('scheduleItems[7AM]'));
+//   console.log(LSscheduleItems7AM);
+//   if (LSscheduleItems7AM.length) {
+//     scheduleItems[scheduleItem.time].push(...LSscheduleItems7AM);
+//   }
+// }
+
+// restoreScheduleFromLocalStorage();
+
+// i think this can be outside of the foreach because it doesn't have to run 12 times
+
+// const LSgroups = Object.keys(localStorage);
+
+// const LSkeys = Object.keys(localStorage);
+// const LSentries = Object.values(localStorage);
+
+// function restoreScheduleFromLocalStorage() {
+//   LSkeys.forEach((group) => {
+//     const LSitems = JSON.parse(localStorage.getItem(group));
+//     console.log(LSitems);
+//     console.log(LSitems.length);
+//     console.log(LSentries);
+//     console.log(LSentries.weeklyItems);
+//     if (LSitems.length) {
+//       console.log(`We have some items in ${group}`);
+//       console.log(group);
+//       console.log(typeof group);
+//       // const groupJS = JSON.parse(JSON.stringify(group));
+//       // console.log(groupJS);
+//       // console.log(typeof groupJS);
+//       // group.push(...LSitems);
+//     }
+
+//     // const JSgroup = JSON.parse(LSgroups);
+//     // console.log(JSgroup);
+//     // if (LSitems.length) {
+//     //   group.push(...LSitems);
+//     //   group.dispatchEvent(new CustomEvent('itemsUpdated'));
+//     // }
+//   });
+//   // grab all of the local storage items that exist
+//   // for (const i in localStorage) {
+//   //   console.log(localStorage[i]);
+//   // }
+
+//   // const LSgroups = JSON.parse(localStorage.getItem('scheduleItems[2PM]'));
+//   console.log(LSkeys);
+// }
+
+// restoreScheduleFromLocalStorage();
+
+// const activities = [
+//   ['Work', 9],
+//   ['Eat', 1],
+//   ['Commute', 2],
+//   ['Play Game', 1],
+//   ['Sleep', 7],
+// ];
+
+// you can definitely access things by their index numerically
+// see if you can use strings as an index
+
+const activities = [];
+// console.log(typeof activities);
+
+// activities[0] = ['Work', 9];
+// activities[1] = ['Eat', 1];
+
+activities.morning = [];
+activities.afternoon = ['Eat', 1];
+
+// activities.morning = '';
+// activities.afternoon = '';
+
+const activityObject = {
+  id: Date.now(),
+  make: 'volvo',
+};
+
+// activities.push(activityObject);
+const { morning } = activities;
+morning.push(activityObject);
+
+// const pushScheduleItems = () => {
+//   scheduleItems.push(scheduleItem);
+//   console.log(`There are now ${scheduleItems.length} schedule items in your state`);
+//   scheduleOutput.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+// };
