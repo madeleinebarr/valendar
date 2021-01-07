@@ -84,7 +84,11 @@ body {
 .plan {
   grid-area: plan;
   background-color: bisque;
-  height: 440px;
+  height: 600px;
+  /* margin-right: auto;
+  margin-left: auto;
+  margin-top: 0px;
+  text-align: center; */
 }
 
 .result {
@@ -320,4 +324,12 @@ This could probably be improved with javascript/relying on real data*/
 
 .goalsForm button[type="submit"]:focus {
   outline: none;
+}
+
+.scheduletime {
+  float: left;
+}
+
+form .schedule {
+  float: right;
 }

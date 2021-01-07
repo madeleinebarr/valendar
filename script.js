@@ -1,4 +1,4 @@
-// selecting datebar and appending todaysdate
+// **FUNCTIONALITY FOR DATEBAR
 
 const datebar = document.querySelector('.datebar');
 const todaysdate = document.createElement('p');
@@ -82,6 +82,8 @@ datebar.appendChild(yearProgress);
 
 // we will be able to insert specific colors on specific days
 
+// **GOALS LIST FUNCTIONALITY I LUV U MADILE**
+
 const weeklyGoalsForm = document.querySelector('.weeklyGoals');
 const weeklyList = document.querySelector('.weeklyList');
 
@@ -104,7 +106,7 @@ function handleSubmit(e) {
   e.preventDefault();
   const name = e.currentTarget.item.value;
   if (!name) { return; }
-  console.log(name);
+  // console.log(name);
 
   const item = {
     name,
@@ -115,18 +117,18 @@ function handleSubmit(e) {
   const pushItems = () => {
     if (this.classList[0] === 'weeklyGoals') {
       weeklyItems.push(item);
-      console.log(`There are now ${weeklyItems.length} weekly items in your state`);
-      console.log('You are on the weekly goals list');
+      // console.log(`There are now ${weeklyItems.length} weekly items in your state`);
+      // console.log('You are on the weekly goals list');
       weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
     } else if (this.classList[0] === 'monthlyGoals') {
       monthlyItems.push(item);
-      console.log(`There are now ${monthlyItems.length} monthly items in your state`);
-      console.log('You are on the monthly goals list');
+      // console.log(`There are now ${monthlyItems.length} monthly items in your state`);
+      // console.log('You are on the monthly goals list');
       monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
     } else if (this.classList[0] === 'yearlyGoals') {
       yearlyItems.push(item);
-      console.log(`There are now ${yearlyItems.length} yearly items in your state`);
-      console.log('You are on the yearly goals list');
+      // console.log(`There are now ${yearlyItems.length} yearly items in your state`);
+      // console.log('You are on the yearly goals list');
       yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
     } else {
       console.log('It appears you are not on any list');
@@ -173,22 +175,22 @@ function displayYearlyItems() {
 }
 
 function mirrorToLocalStorage() {
-  console.info('saving items to localstorage');
+  // console.info('saving items to localstorage');
   if (this.classList[0] === 'weeklyList') {
     localStorage.setItem('weeklyItems', JSON.stringify(weeklyItems));
-    console.log('we pushed weekly items to local storage');
+    // console.log('we pushed weekly items to local storage');
   } else if (this.classList[0] === 'monthlyList') {
     localStorage.setItem('monthlyItems', JSON.stringify(monthlyItems));
-    console.log('we pushed monthly items to local storage');
+    // console.log('we pushed monthly items to local storage');
   } else if (this.classList[0] === 'yearlyList') {
     localStorage.setItem('yearlyItems', JSON.stringify(yearlyItems));
-    console.log('we pushed yearly items to local storage');
+    // console.log('we pushed yearly items to local storage');
   }
-  console.log(this.classList[0]);
+  // console.log(this.classList[0]);
 }
 
 function restoreFromLocalStorage() {
-  console.info('restoring from local storage');
+  // console.info('restoring from local storage');
   // pull the items from local storage
   const weeklyLSItems = JSON.parse(localStorage.getItem('weeklyItems'));
   if (weeklyLSItems.length) {
@@ -210,30 +212,30 @@ function restoreFromLocalStorage() {
 }
 
 function deleteItem(id) {
-  console.log('deleting item!', id);
+  // console.log('deleting item!', id);
   // if the id of the item is not equal to the one passed in, we keep it
   weeklyItems = weeklyItems.filter((item) => item.id !== id);
-  console.log(weeklyItems);
+  // console.log(weeklyItems);
   weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
 
   monthlyItems = monthlyItems.filter((item) => item.id !== id);
-  console.log(monthlyItems);
+  // console.log(monthlyItems);
   monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
 
   yearlyItems = yearlyItems.filter((item) => item.id !== id);
-  console.log(yearlyItems);
+  // console.log(yearlyItems);
   yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
 }
 
 function weeklyMarkAsComplete(id) {
-  console.log('marking as complete', id);
-  console.log(`markAsComplete this: ${this}`);
+  // console.log('marking as complete', id);
+  // console.log(`markAsComplete this: ${this}`);
   // find reference to the id that was passed in
   const weeklyItemRef = weeklyItems.find((item) => item.id === id);
   // setting it to the opposite of itself so it toggles
   weeklyItemRef.complete = !weeklyItemRef.complete;
   weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
-  console.log(`Weekly item ref here: ${weeklyItemRef.value}`);
+  // console.log(`Weekly item ref here: ${weeklyItemRef.value}`);
 }
 
 function monthlyMarkAsComplete(id) {
@@ -292,3 +294,187 @@ yearlyList.addEventListener('click', (e) => {
 
 // run on pageload
 restoreFromLocalStorage();
+
+// ** PLAN SCHEDULE FUNCTIONALITY
+
+// const scheduleForm7AM = document.querySelector('.scheduleForm7AM');
+// const scheduleOutput7AM = document.querySelector('.scheduleOutput7AM');
+
+// const scheduleForm8AM = document.querySelector('.scheduleForm8AM');
+// const scheduleOutput8AM = document.querySelector('.scheduleOutput8AM');
+
+/* eslint-disable */
+// let scheduleItems7AM = [];
+// let scheduleItems8AM = [];
+/* eslint-enable */
+
+// function handleScheduleSubmit7AM(e) {
+//   console.log(e.currentTarget.item.id);
+//   e.preventDefault();
+//   const name = e.currentTarget.item.value;
+//   if (!name) { return; }
+//   console.log(name);
+
+//   const scheduleItem = {
+//     name,
+//     id: Date.now(),
+//     complete: false,
+//     time: e.currentTarget.item.id,
+//   };
+
+//   const pushScheduleItems = () => {
+//     scheduleItems7AM.push(scheduleItem);
+//     console.log(`There are now ${scheduleItems7AM.length} schedule items in your state`);
+//     console.log('You are on the schedule');
+//     // scheduleList7AM.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+//     scheduleOutput7AM.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+//   };
+
+//   pushScheduleItems();
+
+//   e.target.reset();
+// }
+
+// function handleScheduleSubmit8AM(e) {
+//   console.log(e.currentTarget.item.id);
+//   e.preventDefault();
+//   const name = e.currentTarget.item.value;
+//   if (!name) { return; }
+//   console.log(name);
+
+//   const scheduleItem = {
+//     name,
+//     id: Date.now(),
+//     complete: false,
+//     time: e.currentTarget.item.id,
+//   };
+
+//   const pushScheduleItems = () => {
+//     scheduleItems8AM.push(scheduleItem);
+//     console.log(`There are now ${scheduleItems8AM.length} schedule items in your state`);
+//     console.log('You are on the schedule');
+//     scheduleOutput8AM.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+//   };
+
+//   pushScheduleItems();
+
+//   e.target.reset();
+// }
+
+// function displayScheduleItems7AM() {
+//   const html = scheduleItems7AM.map((item) => `<li class="schedule-item">
+//   <label>${item.time}</label>
+//   <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+//   <span class="itemName">  ${item.name} </span>
+//   <button aria-label="remove ${item.name}"
+//   value="${item.id}"
+//   >&times;</button>
+//   </li>`).join('');
+//   scheduleOutput7AM.innerHTML = html;
+// }
+
+// function displayScheduleItems8AM() {
+//   const html = scheduleItems8AM.map((item) => `<li class="schedule-item">
+//   <label>${item.time}</label>
+//   <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+//   <span class="itemName">  ${item.name} </span>
+//   <button aria-label="remove ${item.name}"
+//   value="${item.id}"
+//   >&times;</button>
+//   </li>`).join('');
+//   scheduleOutput8AM.innerHTML = html;
+// }
+
+// scheduleForm7AM.addEventListener('submit', handleScheduleSubmit7AM);
+// scheduleOutput7AM.addEventListener('scheduleItemsUpdated', displayScheduleItems7AM);
+
+// scheduleForm8AM.addEventListener('submit', handleScheduleSubmit8AM);
+// scheduleOutput8AM.addEventListener('scheduleItemsUpdated', displayScheduleItems8AM);
+
+// let's generate all of the html to go onto the page for the schedule section
+
+const schedulePlan = document.querySelector('.plan');
+
+const timeArray = ['7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM'];
+
+timeArray.forEach((time) => {
+  const planDiv = document.createElement('div');
+  planDiv.classList.add(`scheduleOutput${time}`);
+  schedulePlan.insertAdjacentElement('beforeend', planDiv);
+  planDiv.innerHTML = `
+  <form class="scheduleForm scheduleForm${time}" autocomplete="off">
+      <label for="time" name="time">${time}</label>
+      <input name="item" id="${time}" type="text">
+      <button type="submit">+</button>
+      </form>
+  `;
+});
+
+const scheduleForms = document.querySelectorAll('.scheduleForm');
+
+scheduleForms.forEach((form) => {
+  // selecting the schedule forms
+  const scheduleForm = document.querySelector(`.${form.classList[1]}`);
+  // console.log(scheduleForm);
+  const scheduleOutput = scheduleForm.parentElement;
+  // console.log(scheduleOutput);
+  // creating the scheduleItems array
+  /* eslint-disable */
+  let scheduleItems = [];
+  /* eslint-enable */
+
+  // handling submit for schedule items
+  function handleScheduleSubmit(e) {
+    e.preventDefault();
+    const name = e.currentTarget.item.value;
+    if (!name) { return; }
+
+    const scheduleItem = {
+      name,
+      id: Date.now(),
+      complete: false,
+      time: e.currentTarget.item.id,
+    };
+
+    const pushScheduleItems = () => {
+      scheduleItems.push(scheduleItem);
+      // console.log(`There are now ${scheduleItems.length} schedule items in your state`);
+      scheduleOutput.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+    };
+
+    pushScheduleItems();
+
+    e.target.reset();
+  }
+
+  scheduleForm.addEventListener('submit', handleScheduleSubmit);
+
+  function displayScheduleItems() {
+    const html = scheduleItems.map((item) => `<li class="schedule-item">
+  <label>${item.time}</label>
+  <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+  <span class="itemName">  ${item.name} </span>
+  <button aria-label="remove ${item.name}"
+  value="${item.id}"
+  >&times;</button>
+  </li>`).join('');
+    scheduleOutput.innerHTML = html;
+  }
+
+  // function mirrorScheduleToLocalStorage() {
+  //   localStorage.setItem('scheduleItems', JSON.stringify(scheduleItems));
+  // }
+
+  // function restoreScheduleFromLocalStorage() {
+  //   const scheduleLSItems = JSON.parse(localStorage.getItem('scheduleItems'));
+  //   if (scheduleLSItems.length) {
+  //     scheduleItems.push(...scheduleLSItems);
+  //     scheduleOutput.dispatchEvent(new CustomEvent('itemsUpdated'));
+  //   }
+  // }
+
+  scheduleOutput.addEventListener('scheduleItemsUpdated', displayScheduleItems);
+  // scheduleOutput.addEventListener('scheduleItemsUpdated', mirrorScheduleToLocalStorage);
+
+  // restoreScheduleFromLocalStorage();
+});
