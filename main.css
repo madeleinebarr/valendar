@@ -84,7 +84,7 @@ body {
 .plan {
   grid-area: plan;
   background-color: bisque;
-  height: 600px;
+  /* height: 600px; */
   /* margin-right: auto;
   margin-left: auto;
   margin-top: 0px;
