@@ -55,27 +55,127 @@ yearProgress.textContent = `${Math.floor(yearPercentage)}% through year`;
 datebar.appendChild(monthProgress);
 datebar.appendChild(yearProgress);
 
+// MOOD TRACKER SECTION
+
 // javascript for creating the squares
 
-// const squares = document.querySelector('.squares');
 
+
+const squares = document.querySelector('.squares');
+
+// original js to have all the squares filled out
 // for (let i = 1; i < 365; i++) {
 //     const level = Math.floor(Math.random() * 4);
 //     squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
+// }
+
+// for (let i=1; i < Math.ceil((yearPercentage/100)*365); i++){
+//   squares.insertAdjacentHTML('beforeend', `<li data-level="4"></li>`);
+// }
+
+const moodTrackerForm = document.querySelector('.moodTrackerForm');
+
+const moods = moodTrackerForm.querySelectorAll('input[type="radio"]');
+
+// console.log(moods);
+// console.log(moods.length);
+
+// creating a place to store our daily moods
+let moodItems = [];
+
+// create a handleSubmit function for the mood tracker
+
+function handleMoodSubmit(e) {
+  e.preventDefault();
+  for (let i=0; i < moods.length; i++) {
+    if (moods[i].checked) {
+      // console.log(moods[i]);
+
+      const name = moods[i].value;
+      // console.log(name);
+      if (!name) { return; }
+
+      const moodItem = {
+        name,
+        id: Date.now(),
+      };
+
+      const pushMoodItems = () => {
+        moodItems.push(moodItem);
+        // event listener to tell whatever element should be listening,
+        // probably the squares,
+        // that something was pushed to moodItems
+      }
+
+      pushMoodItems();
+      // console.log(moodItems);
+
+
+    }
+  }
+  squares.dispatchEvent(new CustomEvent('moodItemsUpdated'));
+  e.target.reset();
+}
+
+
+
+function displayMoodSquare() {
+  // for (let i=0; i < moodItems.length; i++) {
+  //   squares.insertAdjacentHTML('beforeend', `<li class=${moodItems[i].name}></li>`)
+  //   console.log(moodItems[i].name);
+  // }
+  // console.log(moodItems);
+  // squares.insertAdjacentHTML('beforeend', `<li class=${moodItems[moodItems.length-1].name}></li>`);
+
+  
+  // moodItems.forEach((moodItem) => {
+  //    const square = document.createElement('li');
+  //   square.classList.add(`${moodItem.name}`);
+  //   console.log(square);
+  //   squares.appendChild(square);
+  // })
+
+  const html = moodItems.map((item) => `<li class=${item.name}></li>`).join('');
+  squares.innerHTML = html;
+
+}
+
+function mirrorMoodToLocalStorage() {
+  localStorage.setItem('moodItems', JSON.stringify(moodItems));
+}
+
+function restoreMoodFromLocalStorage() {
+  const moodLSItems = JSON.parse(localStorage.getItem('moodItems'));
+  if (moodLSItems.length) {
+    moodItems.push(...moodLSItems);
+    squares.dispatchEvent(new CustomEvent('moodItemsUpdated'));
+  }
+} 
+
+
+
+
+
+
+
+moodTrackerForm.addEventListener('submit', handleMoodSubmit);
+squares.addEventListener('moodItemsUpdated', displayMoodSquare);
+squares.addEventListener('moodItemsUpdated', mirrorMoodToLocalStorage);
+
+restoreMoodFromLocalStorage();
+
+// html from WB for color input
+// `<input id="base" type="color" name="base" value="#ffc600"></input>`
+
+// for (let i=1; i <2; i++) {
+//   squares.insertAdjacentHTML('beforeend', `<li data-level="0"></li>`)
 // }
 
 // testing something out
 // means we'll be able to do some kind of calculation to only populate
 // the days that the user has already filled out
 
-// const squares = document.querySelector('.squares');
-
-// for (let i = 1; i < 2; i++) {
-//     const level = Math.floor(Math.random() * 4);
-//     squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
-// }
-
-// for (let i = 2; i < 3; i++) {
+// for (let i = 2; i < 15; i++) {
 //     const level = Math.floor(Math.random() * 4);
 //     squares.insertAdjacentHTML('beforeend', `<li data-level="${level}"></li>`);
 // }
@@ -325,7 +425,7 @@ timeArray.forEach((time) => {
 
 
   const scheduleForm = document.querySelector(`.scheduleForm${time}`);
-  // console.log(scheduleForm);
+  
 
   const scheduleList = document.querySelector(`.scheduleList${time}`);
   // console.log(scheduleList);
@@ -360,6 +460,7 @@ timeArray.forEach((time) => {
 
   }
 
+  // displayscheduleitems that works
   function displayScheduleItems() {
     const html = scheduleItems[time].map((item) => `<li class="schedule-item">
   <label>${item.time}</label>
@@ -370,7 +471,11 @@ timeArray.forEach((time) => {
   >&times;</button>
   </li>`).join('');
     scheduleList.innerHTML = html;
+    scheduleForm.classList.add('hidden');
+
   }
+
+  
 
  
 
@@ -405,6 +510,7 @@ timeArray.forEach((time) => {
     const id = parseInt(e.target.value);
     if (e.target.matches('button')) {
       deleteScheduleItem(id);
+      scheduleForm.classList.remove('hidden');
     }
     if (e.target.matches('input[type="checkbox"]')) {
       scheduleMarkAsComplete(id);
@@ -416,5 +522,222 @@ timeArray.forEach((time) => {
   })
 
   
+// schedule result section
+
+const scheduleResult = document.querySelector('.result');
+
+// thinking I can use the same timeArray...
+
+// creating the empty arrays
+const resultItems = [];
+const resultLSItems = [];
+
+timeArray.forEach((time) => {
+  const resultDiv = document.createElement('div');
+  resultDiv.classList.add(`resultOutput${time}`);
+  scheduleResult.insertAdjacentElement('beforeend', resultDiv);
+  resultDiv.innerHTML = `
+  <form class="resultForm resultForm${time}" autocomplete="off">
+      <label for="time" name="time">${time}</label>
+      <input name="item" id="result${time}" type="text">
+      <button type="submit">+</button>
+      </form>
+      <ul class="resultList${time}"></ul>
+  `;
 
 
+  const resultForm = document.querySelector(`.resultForm${time}`);
+  // console.log(resultForm);
+
+  const resultList = document.querySelector(`.resultList${time}`);
+  // console.log(resultList);
+
+
+
+  resultItems[time] = [];
+  resultLSItems[time] = [];
+
+  function handleScheduleSubmit(e) {
+    e.preventDefault();
+    const name = e.currentTarget.item.value;
+    if (!name) { return; }
+
+    const resultItem = {
+            name,
+            id: Date.now(),
+            complete: false,
+            time: e.currentTarget.item.id,
+          };
+
+      const pushResultItems = () => {
+        resultItems[time].push(resultItem);
+        // console.log(`There are now ${resultItems[time].length} result items in resultItems${time}`);
+        resultList.dispatchEvent(new CustomEvent('resultItemsUpdated'));
+      }
+
+      pushResultItems();
+
+      e.target.reset();
+
+  }
+
+  function displayResultItems() {
+    const html = resultItems[time].map((item) => `<li class="result-item">
+  <label>${item.time}</label>
+  <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+  <span class="itemName">  ${item.name} </span>
+  <button aria-label="remove ${item.name}"
+  value="${item.id}"
+  >&times;</button>
+  </li>`).join('');
+    resultList.innerHTML = html;
+    resultForm.classList.add('hidden');
+  }
+
+ 
+
+  function mirrorResultToLocalStorage() {
+    localStorage.setItem(`resultItems[${time}]`, JSON.stringify(resultItems[time]));
+  }
+
+  function restoreResultFromLocalStorage() {
+    resultLSItems[time] = JSON.parse(localStorage.getItem(`resultItems[${time}]`));
+    if (resultLSItems[time].length) {
+      resultItems[time].push(...resultLSItems[time]);
+      resultList.dispatchEvent(new CustomEvent('resultItemsUpdated'));
+    }
+  }
+
+  function deleteResultItem(id) {
+    resultItems[time] = resultItems[time].filter((item) => item.id !== id);
+    resultList.dispatchEvent(new CustomEvent('resultItemsUpdated'));
+  }
+
+  function resultMarkAsComplete(id) {
+    const itemRef = resultItems[time].find((item) => item.id === id);
+    itemRef.complete = !itemRef.complete;
+    resultList.dispatchEvent(new CustomEvent('resultItemsUpdated'));
+  }
+
+  resultForm.addEventListener('submit', handleScheduleSubmit);
+  resultList.addEventListener('resultItemsUpdated', displayResultItems);
+  resultList.addEventListener('resultItemsUpdated', mirrorResultToLocalStorage);
+
+  resultList.addEventListener('click', (e) => {
+    const id = parseInt(e.target.value);
+    if (e.target.matches('button')) {
+      deleteResultItem(id);
+      resultForm.classList.remove('hidden');
+    }
+    if (e.target.matches('input[type="checkbox"]')) {
+      resultMarkAsComplete(id);
+    }
+  })
+
+  restoreResultFromLocalStorage();
+  
+  })
+
+// wake up time functionality 
+
+// const wakeuptime = document.querySelector('.wakeuptime');
+
+// const weekArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// const wakeupItems = [];
+// const wakeupLSItems = [];
+
+// weekArray.forEach((day) => {
+//   const dayDiv = document.createElement('div');
+//   dayDiv.classList.add(`wakeupOutput${day}`);
+//   wakeuptime.insertAdjacentElement('beforeend', dayDiv);
+//   dayDiv.innerHTML = `
+//   <form class="wakeupForm wakeupForm${day}" autocomplete="off">
+//       <label for="day" name="day">${day}</label>
+//       <input name="item" id="${day}" type="text">
+//       <button type="submit">+</button>
+//       </form>
+//       <ul class="wakeupList${day}"></ul>
+//   `;
+
+//   const wakeupForm = document.querySelector(`.wakeupForm${day}`);
+//   const wakeupList = document.querySelector(`.wakeupList${day}`);
+
+//   wakeupItems[day] = [];
+//   wakeupLSItems[day] = [];
+
+//   function handleWakeupSubmit(e) {
+//     e.preventDefault();
+//     const name = e.currentTarget.item.value;
+//     if (!name) { return; }
+
+//     const wakeupItem = {
+//             name,
+//             id: Date.now(),
+//             complete: false,
+//             day: e.currentTarget.item.id,
+//           };
+
+//       const pushWakeupItems = () => {
+//         wakeupItems[day].push(wakeupItem);
+//         wakeupList.dispatchEvent(new CustomEvent('wakeupItemsUpdated'));
+//       }
+
+//       pushWakeupItems();
+
+//       e.target.reset();
+
+//   }
+
+//   function displayWakeupItems() {
+//     const html = wakeupItems[day].map((item) => `<li class="wakeup-item">
+//   <label>${item.day}</label>
+//   <input value="${item.id}" type="checkbox" ${item.complete && 'checked'}>
+//   <span class="itemName">  ${item.name} </span>
+//   <button aria-label="remove ${item.name}"
+//   value="${item.id}"
+//   >&times;</button>
+//   </li>`).join('');
+//     wakeupList.innerHTML = html;
+//   }
+
+//   function mirrorWakeupToLocalStorage() {
+//     localStorage.setItem(`wakeupItems[${day}]`, JSON.stringify(wakeupItems[day]));
+//   }
+
+//   function restoreWakeupFromLocalStorage() {
+//     wakeupLSItems[day] = JSON.parse(localStorage.getItem(`wakeupItems[${day}]`));
+//     if (wakeupLSItems[day].length) {
+//       wakeupItems[day].push(...wakeupLSItems[day]);
+//       wakeupList.dispatchEvent(new CustomEvent('wakeupItemsUpdated'));
+//     }
+//   }
+
+//   function deleteWakeupItem(id) {
+//     wakeupItems[day] = wakeupItems[day].filter((item) => item.id !== id);
+//     wakeupList.dispatchEvent(new CustomEvent('wakeupItemsUpdated'));
+//   }
+
+//   function wakeupMarkAsComplete(id) {
+//     const itemRef = wakeupItems[day].find((item) => item.id === id);
+//     itemRef.complete = !itemRef.complete;
+//     wakeupList.dispatchEvent(new CustomEvent('wakeupItemsUpdated'));
+//   }
+
+
+//   wakeupForm.addEventListener('submit', handleWakeupSubmit);
+//   wakeupList.addEventListener('wakeupItemsUpdated', displayWakeupItems);
+//   wakeupList.addEventListener('wakeupItemsUpdated', mirrorWakeupToLocalStorage);
+
+//   wakeupList.addEventListener('click', (e) => {
+//     const id = parseInt(e.target.value);
+//     if (e.target.matches('button')) {
+//       deleteWakeupItem(id);
+//     }
+//     if (e.target.matches('input[type="checkbox"]')) {
+//       wakeupMarkAsComplete(id);
+//     }
+//   })
+
+//   restoreWakeupFromLocalStorage();
+// })

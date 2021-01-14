@@ -9,50 +9,7 @@
         <link rel="stylesheet" href="/main.css">
     </head>
     <body>
-        <!--datebar-->
-        <!-- <div class="datebar">
-            <p class="centertext todaysdate">October 27, 2020</p>
-        </div> -->
-
-        <!-- annual mood tracker -->
-
-        <!-- <div class="graphcontainer">
-           <div class="graph">
-               <ul class="months">
-                    <li>Jan</li>
-                    <li>Feb</li>
-                    <li>Mar</li>
-                    <li>Apr</li>
-                    <li>May</li>
-                    <li>Jun</li>
-                    <li>Jul</li>
-                    <li>Aug</li>
-                    <li>Sep</li>
-                    <li>Oct</li>
-                    <li>Nov</li>
-                    <li>Dec</li>
-               </ul>
-               <ul class="days">
-                    <li>Sun</li>
-                    <li>Mon</li>
-                    <li>Tue</li>
-                    <li>Wed</li>
-                    <li>Thu</li>
-                    <li>Fri</li>
-                    <li>Sat</li>
-               </ul>
-               <ul class="squares">
-                   
-               </ul>
-           </div>
-        </div> -->
-
-
-
-
-
-
-
+        
         <div class="layout">
         <div class="columnlayout">
             <div class="goals">
@@ -146,76 +103,19 @@
 
  
                 </div>
-                <div class="notes">
+                <!-- <div class="notes">
                     <div class="notestext">
 
                 
                     <textarea id='notesinput' placeholder="Notes"></textarea>
                 </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="schedulelayout">
                 <div class="plan">
                     <p class="centertext">Plan</p>  
                     
-                   
-
-                    <!--HTML for schedule section that works with JS-->
-
-                    <!-- <div class="scheduleOutput7AM">
-                    <form class="scheduleForm scheduleForm7AM" autocomplete="off">
-                        <label for="time" name="time">7:00AM</label>
-                        <input name="item" id="7:00AM" type="text">
-                        <button type="submit">+</button>
-                    </form>
-                    </div>  
-
-                    <div class="scheduleOutput8AM">
-                        <form class="scheduleForm scheduleForm8AM" autocomplete="off">
-                            <label for="time" name="time">8:00AM</label>
-                            <input name="item" id="8:00AM" type="text">
-                            <button type="submit">+</button>
-                        </form>
-                        </div>  
-
-                        <div class="scheduleOutput9AM">
-                            <form class="scheduleForm scheduleForm9AM" autocomplete="off">
-                                <label for="time" name="time">9:00AM</label>
-                                <input name="item" id="9:00AM" type="text">
-                                <button type="submit">+</button>
-                            </form>
-                            </div>   -->
-                    
-                    <!-- <div class="scheduleOutput">
-                        <form class="scheduleForm" autocomplete="off">
-                            <label for="time" name="time">8:00AM</label>
-                            <input name="item" id="8:00AM" type="text">
-                            <button type="submit">+</button>
-                        </form>
-                        </div>  
-                        <ul class="scheduleList"></ul> -->
-                    <!-- <p>7:00 -</p>
-                    <p>8:00 -</p>
-                    <p>9:00 -</p>
-                    <p>10:00 -</p>
-                    <p>11:00 -</p>
-                    <p>12:00 -</p>
-                    <hr>
-                    <p>1:00 -</p>
-                    <p>2:00 -</p>
-                    <p>3:00 -</p>
-                    <p>4:00 -</p>
-                    <p>5:00 -</p>
-                    <p>6:00 -</p>
-                    <p>7:00 -</p>
-                    <p>8:00 -</p>
-                    <p>9:00 -</p> -->
-                
-
-
-                    <!--would be good to have text inputs on this with same colored background...-->
-                
                 </div>
                 <div class="result">
                     <p class="centertext">Result</p> 
@@ -226,44 +126,98 @@
             </div>
             <div class="assessment">
                 <div class="assessmenttext">
-                <p>Wake up time:</p>
-                <p>Habit tracker (shows weekly view):</p>
+                <p class="wakeuptime">Wake up time:</p>
+                <!-- <p>Habit tracker (shows weekly view):</p>
                 <p>Eating journal:</p>
                 <p>exercise journal:</p>
-                <p>meditation tracker</p>
+                <p>meditation tracker</p> -->
             </div>
 
             </div>
         </div>
 
+        <p>How do you feel today?</p>
+
+        <form class="moodTrackerForm">
+            <input type="radio" id="amazing" name="item" value="amazing">
+            <label for="amazing">amazing/wonderful</label><br>
+
+            <input type="radio" id="good" name="item" value="good">
+            <label for="good">good/happy</label><br>
+
+            <input type="radio" id="productive" name="item" value="productive">
+            <label for="productive">productive/energetic/focused</label><br>
+
+            <input type="radio" id="average" name="item" value="average">
+            <label for="average">average/normal</label><br>
+
+            <input type="radio" id="blah" name="item" value="blah">
+            <label for="blah">sick/tired/blah</label><br>
+
+            <input type="radio" id="sad" name="item" value="sad">
+            <label for="sad">sad/bad/depressing/lonely</label><br>
+
+            <input type="radio" id="stressful" name="item" value="stressful">
+            <label for="stressful">stressful/frustrated</label><br>
+
+            <input type="radio" id="anxious" name="item" value="anxious">
+            <label for="anxious">anxious/nervous</label><br>
+            
+            
+            <br>
+            <!-- <input type="submit" value="Submit"> -->
+            <button type="submit">+</button>
+          </form> 
+
+
+  </div>
+
 
             <div class="moodtracker">
-                <p>Vanessa: And I’m Vanessa Zoltan
-                    Casper: And this is Harry Potter and the Sacred Text.
-                    Vanessa: Casper, one of the first conversations that we had about Harry Potter, I was
-                    complaining about this inconsistency in the novels that’s always annoyed me- when
-                    wizards wear muggle clothes and they don’t – And you said to me, ‘Well what if we
-                    treated that as if it wasn’t an inconsistency, but it was there on purpose?’
-                    That conversation was so exciting to me because it took something shallow, like this
-                    shallow cynical thing that I’m really good at – I’m really good at being cynical and
-                    critical and ironic – and you were asking me to be sincere and optimistic about the
-                    material again. And I think that is what we’re going to do in this podcast. We are going to ask ourselves ‘what if we take this seriously? What gifts is it going to give us if
-                    we love something and we love it with rigor, and we love it with commitment?’
-                    Casper: hmmm…
-                    Vanessa: So, why are you excited to do a Harry Potter and the Sacred Text podcast?
-                    Casper: Treating Harry Potter as a sacred text was not something I was planning on
-                    doing. I was in divinity school against all expectations; I was growing up in a non-religious household and never thought I would be sitting in a Bible study class learning
-                    how to understand this ancient text. And it was interesting, but it never felt like it
-                    was mine. I didn’t love it.
-                    And I happened to go on vacation with my family and you know, after about just two
-                    or three weeks with my family, I wanted to escape, and so looked for something to
-                    read, something that would be comforting, something that would remind me of a
-                    place where I felt safe. So I downloaded Harry Potter! And I started reading it, and
-                    not only did it make me feel comfortable and safe, and took me out of the situation I
-                    was in and into an imaginary world which I loved already, but the themes and the
-                    questions that were in these books were so… big! They were just as big as the Bible
-                    questions I’d just been reading, you know.</p>
+               
+
+                    <div class="graphcontainer">
+                        <div class="graph">
+                            <ul class="months">
+                                 <li>Jan</li>
+                                 <li>Feb</li>
+                                 <li>Mar</li>
+                                 <li>Apr</li>
+                                 <li>May</li>
+                                 <li>Jun</li>
+                                 <li>Jul</li>
+                                 <li>Aug</li>
+                                 <li>Sep</li>
+                                 <li>Oct</li>
+                                 <li>Nov</li>
+                                 <li>Dec</li>
+                            </ul>
+                            <ul class="days">
+                                 <li>Sun</li>
+                                 <li>Mon</li>
+                                 <li>Tue</li>
+                                 <li>Wed</li>
+                                 <li>Thu</li>
+                                 <li>Fri</li>
+                                 <li>Sat</li>
+                            </ul>
+                            <ul class="squares">
+                                
+                            </ul>
+                        </div>
+                     </div>
             </div>
+
+            <div class="notes">
+                <div class="notestext">
+
+            
+                <textarea id='notesinput' placeholder="Notes"></textarea>
+            </div>
+            </div>
+
+            
+
         </div>
        
 

@@ -21,6 +21,11 @@ body {
   background-color: lavenderblush;
 }
 
+.moodTrackerForm {
+  display: flex;
+  justify-content: center;
+}
+
 .goals {
   grid-area: goals;
   background-color: lavender;
@@ -200,9 +205,8 @@ areas of a grid fall.*/
     "days squares";
   gap: 10px;
   grid-template-columns: auto 1fr;
-
   padding: 20px;
-  border: 1px #e1e4e8 solid;
+  /* border: 1px #e1e4e8 solid; */
   /* margin: 20px; */
 }
 
@@ -215,15 +219,55 @@ areas of a grid fall.*/
 }
 
 .squares li[data-level="1"] {
-  background-color: #c6e48b;
+  /* background-color: #c6e48b; */
+  background-color: cornflowerblue;
 }
 
 .squares li[data-level="2"] {
-  background-color: #7bc96f;
+  /* background-color: #7bc96f; */
+  background-color: lightskyblue;
 }
 
 .squares li[data-level="3"] {
-  background-color: #196127;
+  /* background-color: #196127; */
+  background-color: lightseagreen;
+}
+
+.squares li[data-level="4"] {
+  /* background-color: #196127; */
+  background-color: rgb(228, 228, 228);
+}
+
+.squares li[class="amazing"] {
+  background-color: red;
+}
+
+.squares li[class="good"] {
+  background-color: orange;
+}
+
+.squares li[class="productive"] {
+  background-color: rgb(255, 230, 0);
+}
+
+.squares li[class="average"] {
+  background-color: greenyellow;
+}
+
+.squares li[class="blah"] {
+  background-color: rgb(0, 170, 0);
+}
+
+.squares li[class="sad"] {
+  background-color: lightskyblue;
+}
+
+.squares li[class="stressful"] {
+  background-color: rgb(146, 87, 255);
+}
+
+.squares li[class="anxious"] {
+  background-color: rgb(44, 7, 44);
 }
 
 /* if we want a grid area name that doesn't correspond to an actual grid area,
@@ -333,3 +377,15 @@ This could probably be improved with javascript/relying on real data*/
 form .schedule {
   float: right;
 }
+
+.hidden {
+  display: none;
+}
+
+.schedulelayout ul {
+  list-style: none;
+}
+
+/* .hidden {
+  background-color: red;
+} */
