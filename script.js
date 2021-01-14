@@ -2,7 +2,9 @@
 
 const datebar = document.querySelector('.datebar');
 const todaysdate = document.createElement('p');
-todaysdate.classList.add('centertext', 'todaysdate');
+// todaysdate.classList.add('centertext', 'todaysdate');
+todaysdate.classList.add('todaysdate');
+
 
 const date = new Date();
 const dateString = date.toString();
@@ -43,17 +45,47 @@ const monthEndMS = new Date(new Date().getFullYear(), new Date().getMonth() + 1,
 
 const monthPercentage = ((nowMS - monthStartMS) / (monthEndMS - monthStartMS) * 100);
 
-const yearProgress = document.createElement('p');
 const monthProgress = document.createElement('p');
+monthProgress.classList.add('progressText');
 
-yearProgress.classList.add('centertext');
-monthProgress.classList.add('centertext');
+const monthPB = document.createElement('div');
+monthPB.classList.add('progressbar', 'monthPB');
+
+const monthPBinside = document.createElement('div');
+monthPBinside.classList.add('progress', 'monthPBinside');
+
+
+const yearProgress = document.createElement('p');
+yearProgress.classList.add('progressText');
+
+
+const yearPB = document.createElement('div');
+yearPB.classList.add('progressbar', 'yearPB');
+
+const yearPBinside = document.createElement('div');
+yearPBinside.classList.add('progress', 'yearPBinside');
+
+
+// yearProgress.classList.add('centertext');
+// monthProgress.classList.add('centertext');
 
 monthProgress.textContent = `${Math.floor(monthPercentage)}% through month`;
 yearProgress.textContent = `${Math.floor(yearPercentage)}% through year`;
 
 datebar.appendChild(monthProgress);
+datebar.appendChild(monthPB);
 datebar.appendChild(yearProgress);
+datebar.appendChild(yearPB);
+
+monthPB.appendChild(monthPBinside);
+yearPB.appendChild(yearPBinside);
+
+// monthPBinside.setAttribute('width', `${monthPercentage}%`);
+// monthPBinside.setAttribute('background-color', 'red');
+
+monthPBinside.style.width = `${monthPercentage}%`;
+yearPBinside.style.width = `${yearPercentage}%`;
+
 
 // MOOD TRACKER SECTION
 
