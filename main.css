@@ -27,9 +27,12 @@ body {
 .columnlayout {
   display: grid;
   /* grid-template-areas: "goals schedule assessment"; */
-  grid-template-areas: "day schedule goals";
+  /* grid-template-areas: "day schedule goals"; */
+  /* grid-template-columns: 20% 1fr 20%; */
+  /*limiting the template to day and schedule to make room for schedule*/
+  grid-template-areas: "day schedule";
   /* grid-template-columns: repeat(3, 1fr); */
-  grid-template-columns: 20% 1fr 20%;
+  grid-template-columns: 20% 1fr;
 }
 
 .day {
@@ -39,7 +42,7 @@ body {
 
 .schedule {
   grid-area: schedule;
-  background-color: mintcream;
+  /* background-color: mintcream; */
 }
 
 .goals {
@@ -62,6 +65,16 @@ body {
   border-radius: var(--radius);
   padding-left: 20px;
   padding-bottom: 20px;
+}
+
+.todaysdate {
+  font-size: 25px;
+  margin-top: -20px;
+}
+
+.todaysweekday {
+  font-size: 20px;
+  /* margin-top: -20px; */
 }
 
 .progressText {
@@ -101,6 +114,64 @@ body {
     var(--peachy) 10px,
     var(--peachy) 20px
   );
+}
+
+/* schedule section */
+
+.schedulelayout {
+  border: 2px solid var(--grapefizz);
+  border-radius: var(--radius);
+  display: grid;
+  /* grid-template-areas: "plan result"; */
+  /* column layout*/
+  grid-template-columns: 1fr auto;
+}
+
+/* .schedulecolumn {
+  border: 2px solid var(--graphite);
+  border-radius: var(--radius);
+} */
+
+/*table calendar*/
+
+table,
+th,
+td {
+  border: 1px solid black;
+  /* border-collapse: collapse; */
+}
+
+.scheduledEvent {
+  background-color: var(--peachy);
+  border: 2px solid var(--grapefizz);
+  border-radius: 2px;
+}
+
+.plan {
+  grid-area: plan;
+  /* background-color: bisque; */
+  /* height: 600px; */
+  /* margin-right: auto;
+  margin-left: auto;
+  margin-top: 0px;
+  text-align: center; */
+}
+
+.result {
+  grid-area: result;
+  /* background-color: floralwhite; */
+}
+
+.scheduletime {
+  float: left;
+}
+
+form .schedule {
+  float: right;
+}
+
+.schedulelayout ul {
+  list-style: none;
 }
 
 .moodtracker {
@@ -145,33 +216,8 @@ body {
   margin-left: 15px;
 }
 
-.schedulelayout {
-  display: grid;
-  grid-template-areas: "plan result";
-  grid-template-columns: 1fr 1fr;
-}
-
-.plan {
-  grid-area: plan;
-  background-color: bisque;
-  /* height: 600px; */
-  /* margin-right: auto;
-  margin-left: auto;
-  margin-top: 0px;
-  text-align: center; */
-}
-
-.result {
-  grid-area: result;
-  background-color: floralwhite;
-}
-
 .centertext {
   text-align: center;
-}
-
-.todaysdate {
-  font-size: 25px;
 }
 
 .graphcontainer {
@@ -430,20 +476,8 @@ This could probably be improved with javascript/relying on real data*/
   outline: none;
 }
 
-.scheduletime {
-  float: left;
-}
-
-form .schedule {
-  float: right;
-}
-
 .hidden {
   display: none;
-}
-
-.schedulelayout ul {
-  list-style: none;
 }
 
 /* .hidden {
