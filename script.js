@@ -109,6 +109,7 @@ yearPBinside.style.width = `${yearPercentage}%`;
 const scheduleLayout = document.querySelector('.schedulelayout');
 
 const scheduleTable = document.createElement('table');
+scheduleTable.classList.add('scheduleTable');
 scheduleLayout.appendChild(scheduleTable);
 
 const corner = document.createElement('th');
@@ -117,6 +118,8 @@ scheduleTable.appendChild(corner);
 
 const scheduleDaysArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
 let scheduleTimesArray = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'];
+let scheduleItems = [];
+let scheduleLSItems = [];
 
 
 scheduleDaysArray.forEach((day) => {
@@ -144,40 +147,150 @@ scheduleDaysArray.forEach((day) => {
     const timeRow = document.querySelector(`.row${time}`);
     // console.log(timeRow);
     const scheduleSlot = document.createElement('td');
-    scheduleSlot.classList.add(`${day}column`, `${time}row`, 'slot');
+    scheduleSlot.classList.add(`column${day}`, `row${time}`, `${time}${day}`, 'slot');
     // scheduleSlot.innerHTML = `${day} + ${time}`;
 
     scheduleSlot.innerHTML = `
-        <form class="scheduleform hidden">
+        <form class="scheduleForm${time}${day} scheduleForm">
         <input type="text" name="item" id="${time}${day}" autocomplete="off">
         <button type="submit">+</button>
         </form>
+        <ul class="scheduleList${time}${day} scheduleList"></ul>
     `;
     
     
     timeRow.appendChild(scheduleSlot);
+
+    let timedayslot = time + day;
+    // console.count(console.log(timedayslot));
+    scheduleItems[timedayslot] = [];
+    scheduleLSItems[timedayslot] = [];
+    
+    const scheduleForm = document.querySelector(`.scheduleForm${time}${day}`);
+    const scheduleList = document.querySelector(`.scheduleList${time}${day}`);
+    
+    function handleScheduleSubmit(e) {
+      e.preventDefault();
+      const name = e.currentTarget.item.value;
+      if (!name) { return; }
+    
+      const scheduleItem = {
+        name,
+        id: Date.now(),
+        complete: false,
+        timedayslot: e.currentTarget.item.id,
+      }
+      console.log(scheduleItem);
+    
+      const pushScheduleItems = () => {
+        scheduleItems[timedayslot].push(scheduleItem);
+        scheduleList.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+      }
+    
+      pushScheduleItems();
+    
+      e.target.reset();
+    }
+
+    // added a label here in case you want to show the time like on ical
+    // could also add this button html after span: <button aria-label="remove ${item.name}" value="${item.id}">&times;</button>
+    function displayScheduleItems() {
+      const html = scheduleItems[timedayslot].map((item) => `
+        <li class="scheduleItem">
+        <label></label>
+        <span class="itemName"> ${item.name} </span>
+        </li>
+      `).join('');
+      scheduleList.innerHTML = html;
+    }
+
+    function mirrorScheduleToLocalStorage() {
+      localStorage.setItem(`scheduleItems[${timedayslot}]`, JSON.stringify(scheduleItems[timedayslot]));
+    }
+
+    function restoreScheduleFromLocalStorage() {
+      scheduleLSItems[timedayslot] = JSON.parse(localStorage.getItem(`scheduleItems[${timedayslot}]`)) || [];
+      if (scheduleLSItems[timedayslot].length) {
+        scheduleItems[timedayslot].push(...scheduleLSItems[timedayslot]);
+        scheduleList.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+      }
+    }
+
+    // if you wanted you could add delete schedule item functionality with a button
+    // and also mark as complete functionality 
+    // let's get some other functions up and running first
+
+
+
+    scheduleForm.addEventListener('submit', handleScheduleSubmit);
+    scheduleList.addEventListener('scheduleItemsUpdated', displayScheduleItems);
+    scheduleList.addEventListener('scheduleItemsUpdated', mirrorScheduleToLocalStorage);
+
+    restoreScheduleFromLocalStorage();
+
   })
 })
 
-const slots = document.querySelectorAll('.slot');
+// const scheduleforms = document.querySelectorAll('.scheduleform');
+// const schedulelists = document.querySelectorAll('.scheduleList');
 
-function createEvent(e) {
-  const clickedSlot = e.currentTarget;
-  // style it as an event
+// function handleScheduleSubmit(e) {
+//   e.preventDefault();
+//   const name = e.currentTarget.item.value;
+//   if (!name) { return; }
+
+//   const scheduleItem = {
+//     name,
+//     id: Date.now(),
+//     complete: false,
+//     timedayslot: e.currentTarget.item.id,
+//   }
+//   console.log(scheduleItem);
+
+//   const pushScheduleItems = () => {
+//     scheduleItems[scheduleItem.timedayslot].push(scheduleItem);
+//     scheduleTable.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+//   }
+
+//   pushScheduleItems();
+
+//   e.target.reset();
+// }
+
+// function displayScheduleItems() {
+//   console.log('displaying schedule items');
+// }
+
+// scheduleforms.forEach((scheduleform) => {
+//   scheduleform.addEventListener('submit', handleScheduleSubmit);
+// })
+
+// schedulelists.forEach((schedulelist) => {
+//   schedulelist.addEventListener('scheduleItemsUpdated', displayScheduleItems);
+// })
+
+// scheduleTable.addEventListener('scheduleItemsUpdated', displayScheduleItems);
+
+// const slots = document.querySelectorAll('.slot');
+
+// function createEvent(e) {
+//   const clickedSlot = e.currentTarget;
+
+//   // add the class that it is a scheduled event
+//   clickedSlot.classList.add('scheduledEvent');
+
+//   // show the form
+//   const clickedForm = clickedSlot.querySelector('.scheduleform');
+//   clickedForm.classList.remove('hidden');
+// }
+
+// slots.forEach((slot) => {
+//   slot.addEventListener('dblclick', createEvent);
+// })
+
+// style it as an event
   // clickedSlot.style['background-color'] = 'var(--peachy)';
   // clickedSlot.style.border = '2px solid var(--grapefizz)';
-
-  // add the class that it is a scheduled event
-  clickedSlot.classList.add('scheduledEvent');
-
-  // show the form
-  const clickedForm = clickedSlot.querySelector('.scheduleform');
-  clickedForm.classList.remove('hidden');
-}
-
-slots.forEach((slot) => {
-  slot.addEventListener('dblclick', createEvent);
-})
 
 
 // let scheduleItems = [];
