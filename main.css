@@ -9,6 +9,13 @@
   --graphite: #acd0f4;
   --peachy: #f7c0bb;
   --ballet: #fbcff3;
+
+  --seafoamtransparent: rgba(127, 212, 193, 0.3);
+  --koolaidtransparent: rgba(48, 191, 221, 0.3);
+  --grapefizztransparent: rgba(134, 144, 255, 0.1);
+  --graphitetransparent: rgba(172, 208, 244, 0.3);
+  --peachytransparent: rgba(247, 192, 187, 0.3);
+  --ballettransparent: rgba(251, 207, 243, 0.3);
   --radius: 8px;
   --sansserif: "Open Sans", sans-serif;
   --pixel: "VT323", monospace;
@@ -134,17 +141,37 @@ body {
 
 /*table calendar*/
 
-table,
+.schedulelayout table,
 th,
 td {
-  border: 1px solid black;
-  /* border-collapse: collapse; */
+  /* border: 1px solid #ececec; */
+  border: 1px solid #e7e7e7;
+  /* border: 1px solid black; */
+  border-collapse: collapse;
+}
+
+.schedulelayout th {
+  font-weight: 400;
+}
+
+.row th {
+  color: grey;
 }
 
 .scheduledEvent {
-  background-color: var(--peachy);
-  border: 2px solid var(--grapefizz);
-  border-radius: 2px;
+  /* border: 2px solid var(--grapefizz); */
+
+  border-left: 3px solid var(--grapefizz);
+  border-radius: 8px;
+
+  /* border: 2px solid var(--grapefizz); */
+  background-color: var(--grapefizztransparent);
+
+  color: var(--grapefizz);
+}
+
+.scheduledEvent li {
+  font-weight: 600;
 }
 
 .plan {

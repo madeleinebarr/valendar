@@ -116,7 +116,7 @@ const corner = document.createElement('th');
 corner.innerHTML = '';
 scheduleTable.appendChild(corner);
 
-const scheduleDaysArray = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
+const scheduleDaysArray = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 let scheduleTimesArray = ['6AM', '7AM', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM'];
 let scheduleItems = [];
 let scheduleLSItems = [];
@@ -146,12 +146,12 @@ scheduleDaysArray.forEach((day) => {
   scheduleTimesArray.forEach((time) => {
     const timeRow = document.querySelector(`.row${time}`);
     // console.log(timeRow);
-    const scheduleSlot = document.createElement('td');
-    scheduleSlot.classList.add(`column${day}`, `row${time}`, `${time}${day}`, 'slot');
+    const scheduleSlotTD = document.createElement('td');
+    scheduleSlotTD.classList.add(`scheduleSlot${time}${day}`, `column${day}`, `row${time}`, `${time}${day}`, 'slot');
     // scheduleSlot.innerHTML = `${day} + ${time}`;
 
-    scheduleSlot.innerHTML = `
-        <form class="scheduleForm${time}${day} scheduleForm">
+    scheduleSlotTD.innerHTML = `
+        <form class="scheduleForm${time}${day} scheduleForm hidden">
         <input type="text" name="item" id="${time}${day}" autocomplete="off">
         <button type="submit">+</button>
         </form>
@@ -159,7 +159,7 @@ scheduleDaysArray.forEach((day) => {
     `;
     
     
-    timeRow.appendChild(scheduleSlot);
+    timeRow.appendChild(scheduleSlotTD);
 
     let timedayslot = time + day;
     // console.count(console.log(timedayslot));
@@ -168,6 +168,7 @@ scheduleDaysArray.forEach((day) => {
     
     const scheduleForm = document.querySelector(`.scheduleForm${time}${day}`);
     const scheduleList = document.querySelector(`.scheduleList${time}${day}`);
+    const scheduleSlot = document.querySelector(`.scheduleSlot${time}${day}`);
     
     function handleScheduleSubmit(e) {
       e.preventDefault();
@@ -202,6 +203,8 @@ scheduleDaysArray.forEach((day) => {
         </li>
       `).join('');
       scheduleList.innerHTML = html;
+      scheduleForm.classList.add('hidden');
+      scheduleSlot.classList.add('scheduledEvent');
     }
 
     function mirrorScheduleToLocalStorage() {
@@ -216,11 +219,32 @@ scheduleDaysArray.forEach((day) => {
       }
     }
 
+    // function createEvent(e) {
+//   const clickedSlot = e.currentTarget;
+
+//   // add the class that it is a scheduled event
+//   clickedSlot.classList.add('scheduledEvent');
+
+//   // show the form
+//   const clickedForm = clickedSlot.querySelector('.scheduleform');
+//   clickedForm.classList.remove('hidden');
+// }
+
+    function createEvent(e) {
+      // console.log(e.currentTarget);
+      // const clickedSlot = e.currentTarget;
+      // clickedSlot.classList.add('scheduledEvent');
+      scheduleSlot.classList.add('scheduledEvent');
+
+      // scheduleForm.classList.add('scheduledForm');
+      scheduleForm.classList.remove('hidden');
+    }
     // if you wanted you could add delete schedule item functionality with a button
     // and also mark as complete functionality 
     // let's get some other functions up and running first
 
 
+    scheduleSlot.addEventListener('dblclick', createEvent);
 
     scheduleForm.addEventListener('submit', handleScheduleSubmit);
     scheduleList.addEventListener('scheduleItemsUpdated', displayScheduleItems);
