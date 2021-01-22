@@ -151,6 +151,7 @@ scheduleDaysArray.forEach((day) => {
     // scheduleSlot.innerHTML = `${day} + ${time}`;
 
     scheduleSlotTD.innerHTML = `
+      
         <form class="scheduleForm${time}${day} scheduleForm hidden">
         <input type="text" name="item" id="${time}${day}" autocomplete="off">
         <button type="submit">+</button>
@@ -169,6 +170,7 @@ scheduleDaysArray.forEach((day) => {
     const scheduleForm = document.querySelector(`.scheduleForm${time}${day}`);
     const scheduleList = document.querySelector(`.scheduleList${time}${day}`);
     const scheduleSlot = document.querySelector(`.scheduleSlot${time}${day}`);
+    // const eventDiv = document.querySelector(`.eventDiv`)
     
     function handleScheduleSubmit(e) {
       e.preventDefault();
@@ -197,14 +199,22 @@ scheduleDaysArray.forEach((day) => {
     // could also add this button html after span: <button aria-label="remove ${item.name}" value="${item.id}">&times;</button>
     function displayScheduleItems() {
       const html = scheduleItems[timedayslot].map((item) => `
-        <li class="scheduleItem">
+        <li class="scheduleItem" draggable="true" id="${item.id}">
         <label></label>
         <span class="itemName"> ${item.name} </span>
         </li>
       `).join('');
       scheduleList.innerHTML = html;
       scheduleForm.classList.add('hidden');
+      
       scheduleSlot.classList.add('scheduledEvent');
+
+      // drag and drop causing problems with iterating
+
+      const lists = document.querySelectorAll('.scheduleItem');
+      // lists.forEach((list) => {
+      //   list.addEventListener('dragstart', drag);
+      // })
     }
 
     function mirrorScheduleToLocalStorage() {
@@ -243,17 +253,49 @@ scheduleDaysArray.forEach((day) => {
     // and also mark as complete functionality 
     // let's get some other functions up and running first
 
+    // drag and drop section
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function drag(e) {
+      e.dataTransfer.setData("text", e.target.id);
+      console.log(e.target.id);
+      console.log('dragged from');
+      // console.log(e.target);
+      scheduleSlot.classList.remove('scheduledEvent');
+      // console.log(scheduleItem);
+    }
+
+    function drop(e) {
+      e.preventDefault();
+      let data = e.dataTransfer.getData("text");
+      const thisUL = this.querySelector('ul');
+      // console.log(thisUL);
+      thisUL.appendChild(document.getElementById(data));
+      scheduleSlot.classList.add('scheduledEvent');
+      console.log(data);
+    }
+
 
     scheduleSlot.addEventListener('dblclick', createEvent);
 
     scheduleForm.addEventListener('submit', handleScheduleSubmit);
     scheduleList.addEventListener('scheduleItemsUpdated', displayScheduleItems);
     scheduleList.addEventListener('scheduleItemsUpdated', mirrorScheduleToLocalStorage);
+    scheduleList.addEventListener('dragstart', drag);
+
+    // drag and drop
+
+    scheduleSlot.addEventListener('drop', drop);
+    scheduleSlot.addEventListener('dragover', allowDrop);
 
     restoreScheduleFromLocalStorage();
 
   })
 })
+
+
 
 // const scheduleforms = document.querySelectorAll('.scheduleform');
 // const schedulelists = document.querySelectorAll('.scheduleList');

@@ -170,6 +170,14 @@ td {
   color: var(--grapefizz);
 }
 
+/* .scheduleItem {
+  border-left: 3px solid var(--grapefizz);
+  border-radius: 8px;
+  background-color: var(--grapefizztransparent);
+
+  color: var(--grapefizz);
+} */
+
 .scheduledEvent li {
   font-weight: 600;
 }
