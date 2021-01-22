@@ -199,10 +199,7 @@ scheduleDaysArray.forEach((day) => {
     // could also add this button html after span: <button aria-label="remove ${item.name}" value="${item.id}">&times;</button>
     function displayScheduleItems() {
       const html = scheduleItems[timedayslot].map((item) => `
-        <li class="scheduleItem" draggable="true" id="${item.id}">
-        <label></label>
-        <span class="itemName"> ${item.name} </span>
-        </li>
+        <li class="scheduleItem" draggable="true" id="${item.id}">${item.name}</li>
       `).join('');
       scheduleList.innerHTML = html;
       scheduleForm.classList.add('hidden');
@@ -259,22 +256,89 @@ scheduleDaysArray.forEach((day) => {
     }
 
     function drag(e) {
-      e.dataTransfer.setData("text", e.target.id);
-      console.log(e.target.id);
+      let data = e.target.id;
+      console.log(data);
+      e.dataTransfer.setData("text", data);
+      // console.log(e.target.id);
       console.log('dragged from');
+      let giveSlot = this.parentElement.classList[3];
+      console.log(giveSlot);
+
+      console.log(scheduleItems[giveSlot]);
+
+      // remove item from scheduleItems[giveSlot] 
+
+      function deleteItem(id) {
+        console.log('deleting item', giveSlot, id);
+        scheduleItems[giveSlot] = scheduleItems[giveSlot].filter((item) => item.id !== id);
+        // dispatch event
+        // this makes the events disappear from the schedule and also makes them disappear from local storage
+        // scheduleList.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+        scheduleList.dispatchEvent(new CustomEvent('scheduleItemsDragged'));
+      } 
+
+      let idNumber = parseInt(data);
+
+      deleteItem(idNumber);
+      console.log(scheduleItems[giveSlot]);
+
+
       // console.log(e.target);
+      if(!scheduleItems[giveSlot].length) {
       scheduleSlot.classList.remove('scheduledEvent');
+      }
       // console.log(scheduleItem);
+      
     }
 
     function drop(e) {
       e.preventDefault();
+      let receiveSlot = this.classList[3];
+      console.log('dragged to');
+      console.log(receiveSlot);
+      
       let data = e.dataTransfer.getData("text");
       const thisUL = this.querySelector('ul');
       // console.log(thisUL);
       thisUL.appendChild(document.getElementById(data));
+
+      console.log(scheduleItems[receiveSlot]);
+
+      // add item to scheduleItems[receiveSlot]
+      const draggedItemElement = document.getElementById(data);
+      console.log(draggedItemElement);
+      console.log(draggedItemElement.textContent);
+
+      // const name = draggedItemElement.textContent.replace('\n', '');
+      const name = draggedItemElement.textContent;
+      // nameString = name.replace('')
+      console.log(name);
+
+      const id = parseInt(data);
+
+      console.log(parseInt(data));
+      // console.log(e.currentTarget);
+
+      // creating an item to push into the slot
+      const draggedScheduleItem = {
+        name,
+        id: parseInt(data),
+        complete: false,
+        timedayslot: receiveSlot,
+      }
+
+      const pushDraggedScheduleItems = () => {
+        scheduleItems[receiveSlot].push(draggedScheduleItem);
+        scheduleList.dispatchEvent(new CustomEvent('scheduleItemsDragged'));
+      }
+
+      pushDraggedScheduleItems();
+      console.log(scheduleItems[receiveSlot]);
+
+
       scheduleSlot.classList.add('scheduledEvent');
-      console.log(data);
+      // console.log(data);
+      
     }
 
 
@@ -289,6 +353,8 @@ scheduleDaysArray.forEach((day) => {
 
     scheduleSlot.addEventListener('drop', drop);
     scheduleSlot.addEventListener('dragover', allowDrop);
+
+    scheduleList.addEventListener('scheduleItemsDragged', mirrorScheduleToLocalStorage);
 
     restoreScheduleFromLocalStorage();
 
