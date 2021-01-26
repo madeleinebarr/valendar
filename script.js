@@ -132,7 +132,7 @@ scheduleDaysArray.forEach((day) => {
 scheduleTimesArray.forEach((time) => {
   const scheduleTableRow = document.createElement('tr');
   scheduleTableRow.classList.add(`row${time}`, "row");
-  scheduleTableRow.innerHTML = `<th>${time}</th>
+  scheduleTableRow.innerHTML = `<th class="rowheader">${time}</th>
   `; 
   scheduleTable.appendChild(scheduleTableRow);
 })
@@ -154,7 +154,7 @@ scheduleDaysArray.forEach((day) => {
       
         <form class="scheduleForm${time}${day} scheduleForm hidden">
         <input type="text" name="item" id="${time}${day}" autocomplete="off">
-        <button type="submit">+</button>
+        
         </form>
         <ul class="scheduleList${time}${day} scheduleList"></ul>
     `;
@@ -197,6 +197,19 @@ scheduleDaysArray.forEach((day) => {
 
     // added a label here in case you want to show the time like on ical
     // could also add this button html after span: <button aria-label="remove ${item.name}" value="${item.id}">&times;</button>
+    
+    // this is the original function which works
+    // function displayScheduleItems() {
+    //   const html = scheduleItems[timedayslot].map((item) => `
+    //     <li class="scheduleItem" draggable="true" id="${item.id}">${item.name}</li>
+    //   `).join('');
+    //   scheduleList.innerHTML = html;
+    //   scheduleForm.classList.add('hidden');
+      
+    //   scheduleSlot.classList.add('scheduledEvent');
+    //   const lists = document.querySelectorAll('.scheduleItem');
+    // }
+
     function displayScheduleItems() {
       const html = scheduleItems[timedayslot].map((item) => `
         <li class="scheduleItem" draggable="true" id="${item.id}">${item.name}</li>
@@ -206,12 +219,18 @@ scheduleDaysArray.forEach((day) => {
       
       scheduleSlot.classList.add('scheduledEvent');
 
-      // drag and drop causing problems with iterating
+      // adding time label
+      // const timeLabel = document.createElement('p');
+      // timeLabel.classList.add('timeLabel');
+      // // timeLabel.textContent = 'time';
+      // timeLabel.textContent = scheduleList.parentElement.classList[3].slice(0, -3);
 
+      // if(scheduleSlot.firstElementChild.classList[1] === 'scheduleForm') {
+      //   scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
+      // }
+
+      
       const lists = document.querySelectorAll('.scheduleItem');
-      // lists.forEach((list) => {
-      //   list.addEventListener('dragstart', drag);
-      // })
     }
 
     function mirrorScheduleToLocalStorage() {
@@ -245,6 +264,18 @@ scheduleDaysArray.forEach((day) => {
 
       // scheduleForm.classList.add('scheduledForm');
       scheduleForm.classList.remove('hidden');
+
+      // adding a time label
+      // console.log(scheduleList.parentElement.classList[3]);
+      // const timeLabel = document.createElement('p');
+      // timeLabel.classList.add('timeLabel');
+      // timeLabel.textContent = scheduleList.parentElement.classList[3].slice(0, -3);
+      // console.log(scheduleSlot.firstElementChild.classList[1] === 'scheduleForm');
+      
+      // if(scheduleSlot.firstElementChild.classList[1] === 'scheduleForm') {
+      //   scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
+      // }
+      // scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
     }
     // if you wanted you could add delete schedule item functionality with a button
     // and also mark as complete functionality 
@@ -261,6 +292,7 @@ scheduleDaysArray.forEach((day) => {
       e.dataTransfer.setData("text", data);
       // console.log(e.target.id);
       console.log('dragged from');
+      console.log(this);
       let giveSlot = this.parentElement.classList[3];
       console.log(giveSlot);
 
@@ -288,7 +320,10 @@ scheduleDaysArray.forEach((day) => {
       scheduleSlot.classList.remove('scheduledEvent');
       }
       // console.log(scheduleItem);
+      // const timeLabel = this.parentElement.firstElementChild;
       
+      // console.log(timeLabel);
+      // timeLabel.remove();
     }
 
     function drop(e) {
@@ -338,6 +373,17 @@ scheduleDaysArray.forEach((day) => {
 
       scheduleSlot.classList.add('scheduledEvent');
       // console.log(data);
+
+      // const timeLabel = document.createElement('p');
+      // timeLabel.classList.add('timeLabel');
+      // timeLabel.textContent = scheduleList.parentElement.classList[3].slice(0, -3);
+      // console.log(scheduleSlot.firstElementChild.classList[1] === 'scheduleForm');
+      
+      // if(scheduleSlot.firstElementChild.classList[1] === 'scheduleForm') {
+      //   scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
+      // }
+      // scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
+      
       
     }
 
