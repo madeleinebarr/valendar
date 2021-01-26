@@ -26,6 +26,7 @@ body {
   display: grid;
   grid-template-areas: "day schedule";
   grid-template-columns: 20% 1fr;
+  /* grid-template-columns: 20% 80%; */
 }
 
 .day {
@@ -34,11 +35,6 @@ body {
 
 .schedule {
   grid-area: schedule;
-}
-
-.goals {
-  grid-area: goals;
-  background-color: cornsilk;
 }
 
 .datebar {
@@ -64,6 +60,36 @@ body {
 
 .dailyimage {
   border: 2px solid var(--koolaid);
+  border-radius: var(--radius);
+}
+
+.goalssection {
+  border: 2px solid var(--peachy);
+  border-radius: var(--radius);
+  display: grid;
+  grid-template-areas: "daily weekly monthly yearly";
+  /* grid-template-areas: "weekly monthly yearly"; */
+  grid-template-columns: 3 (1fr);
+}
+
+.daily {
+  grid-area: daily;
+}
+
+.weekly {
+  grid-area: weekly;
+}
+
+.monthly {
+  grid-area: monthly;
+}
+
+.yearly {
+  grid-area: yearly;
+}
+
+.moodtrackingsection {
+  border: 2px solid var(--ballet);
   border-radius: var(--radius);
 }
 
@@ -101,14 +127,16 @@ body {
   border-radius: var(--radius);
   display: grid;
   grid-template-columns: 1fr auto;
+  /* width: 80%; */
 }
 
 /*table calendar*/
 
-/* .scheduleTable {
+.scheduleTable {
   width: 100%;
+  /* width: 80%; */
   table-layout: fixed;
-} */
+}
 
 .schedulelayout table,
 th,
@@ -248,9 +276,10 @@ form .schedule {
 .moodtracker {
   display: grid;
   grid-template-columns: 1fr;
-  background-color: lavenderblush;
+  /* background-color: lavenderblush; */
 }
 
+/*makes mood options display sideways*/
 .moodTrackerForm {
   display: flex;
   justify-content: center;
@@ -265,8 +294,8 @@ form .schedule {
 }
 
 .goalsheading {
+  font-family: var(--pixel);
   font-size: 15px;
-  font-weight: 600;
 }
 /* 
 .weeklygoals,
@@ -469,8 +498,9 @@ This could probably be improved with javascript/relying on real data*/
 /* "shopping list" / wish list css */
 
 .goalsForm {
+  /* width: 100%; */
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 80%;
   gap: 10px;
   padding: 10px;
 }
@@ -522,11 +552,13 @@ This could probably be improved with javascript/relying on real data*/
 /* my shopping list css*/
 
 .goalsForm input {
-  border: none;
+  /* border: none; */
+  border: 1px solid var(--graphitetransparent);
 }
 
 .goalsForm input:focus {
   outline: none;
+  border: 1px solid var(--ballet);
 }
 
 .goalsList button {
@@ -545,6 +577,11 @@ This could probably be improved with javascript/relying on real data*/
 
 .goalsForm button[type="submit"]:focus {
   outline: none;
+}
+
+.line {
+  width: 90%;
+  margin-left: 0;
 }
 
 .hidden {
