@@ -5,6 +5,8 @@
   --graphite: #acd0f4;
   --peachy: #f7c0bb;
   --ballet: #fbcff3;
+  --razzleberry: #c774e8;
+  --phoenix: #65323e;
 
   --seafoamtransparent: rgba(127, 212, 193, 0.3);
   --koolaidtransparent: rgba(48, 191, 221, 0.3);
@@ -404,6 +406,11 @@ areas of a grid fall.*/
 /*the grid-template-areas property accepts space separated strings*/
 /* each string represents a row, and within each string we have columns*/
 
+.moodquestion {
+  font-family: var(--pixel);
+  font-size: 15px;
+}
+
 .graph {
   display: inline-grid;
   grid-template-areas:
@@ -424,56 +431,41 @@ areas of a grid fall.*/
   background-color: #ebedf0;
 }
 
-.squares li[data-level="1"] {
-  /* background-color: #c6e48b; */
-  background-color: cornflowerblue;
-}
-
-.squares li[data-level="2"] {
-  /* background-color: #7bc96f; */
-  background-color: lightskyblue;
-}
-
-.squares li[data-level="3"] {
-  /* background-color: #196127; */
-  background-color: lightseagreen;
-}
-
 .squares li[data-level="4"] {
   /* background-color: #196127; */
   background-color: rgb(228, 228, 228);
 }
 
 .squares li[class="amazing"] {
-  background-color: red;
+  background-color: var(--peachy);
 }
 
 .squares li[class="good"] {
-  background-color: orange;
+  background-color: var(--ballet);
 }
 
 .squares li[class="productive"] {
-  background-color: rgb(255, 230, 0);
+  background-color: var(--koolaid);
 }
 
 .squares li[class="average"] {
-  background-color: greenyellow;
+  background-color: var(--seafoam);
 }
 
 .squares li[class="blah"] {
-  background-color: rgb(0, 170, 0);
+  background-color: var(--graphite);
 }
 
 .squares li[class="sad"] {
-  background-color: lightskyblue;
+  background-color: var(--grapefizz);
 }
 
 .squares li[class="stressful"] {
-  background-color: rgb(146, 87, 255);
+  background-color: var(--razzleberry);
 }
 
 .squares li[class="anxious"] {
-  background-color: rgb(44, 7, 44);
+  background-color: var(--phoenix);
 }
 
 /* if we want a grid area name that doesn't correspond to an actual grid area,
