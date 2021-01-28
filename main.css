@@ -2,16 +2,16 @@
   --seafoam: #7fd4c1;
   --koolaid: #30bfdd;
   --grapefizz: #8690ff;
-  --graphite: #acd0f4;
+  --grafite: #acd0f4;
   --peachy: #f7c0bb;
   --ballet: #fbcff3;
   --razzleberry: #c774e8;
   --phoenix: #65323e;
-
+  --lochness: #569874;
   --seafoamtransparent: rgba(127, 212, 193, 0.3);
   --koolaidtransparent: rgba(48, 191, 221, 0.3);
   --grapefizztransparent: rgba(134, 144, 255, 0.1);
-  --graphitetransparent: rgba(172, 208, 244, 0.3);
+  --grafitetransparent: rgba(172, 208, 244, 0.3);
   --peachytransparent: rgba(247, 192, 187, 0.3);
   --ballettransparent: rgba(251, 207, 243, 0.3);
   --radius: 8px;
@@ -26,8 +26,8 @@ body {
 
 .columnlayout {
   display: grid;
-  grid-template-areas: "day schedule";
-  grid-template-columns: 20% 1fr;
+  grid-template-areas: "day schedule mood";
+  grid-template-columns: 20% 1fr 20%;
   /* grid-template-columns: 20% 80%; */
 }
 
@@ -37,6 +37,10 @@ body {
 
 .schedule {
   grid-area: schedule;
+}
+
+.mood {
+  grid-area: mood;
 }
 
 .datebar {
@@ -90,9 +94,16 @@ body {
   grid-area: yearly;
 }
 
-.moodtrackingsection {
-  border: 2px solid var(--ballet);
+.music {
+  border: 2px solid var(--lochness);
   border-radius: var(--radius);
+}
+
+.moodtrackingsection {
+  border: 2px solid var(--razzleberry);
+  border-radius: var(--radius);
+  height: 600px;
+  overflow: scroll;
 }
 
 .dailyimage img {
@@ -106,7 +117,7 @@ body {
 .progressbar {
   width: 90%;
   background-color: white;
-  border: 2px solid var(--graphite);
+  border: 2px solid var(--grafite);
   border-radius: var(--radius);
 }
 
@@ -278,13 +289,19 @@ form .schedule {
 .moodtracker {
   display: grid;
   grid-template-columns: 1fr;
-  /* background-color: lavenderblush; */
 }
 
 /*makes mood options display sideways*/
-.moodTrackerForm {
+/*could make text options shorter + display them closer*/
+/* .moodTrackerForm {
   display: flex;
   justify-content: center;
+} */
+
+.moodTrackerForm {
+  height: 77px;
+  column-count: 3;
+  column-fill: auto;
 }
 
 .goalstext {
@@ -322,10 +339,11 @@ form .schedule {
   text-align: center;
 }
 
-.graphcontainer {
+/*this is supposed to center the moodtracker but taking it away centered it*/
+/* .graphcontainer {
   display: flex;
   justify-content: center;
-}
+} */
 
 /* journal input */
 
@@ -351,7 +369,7 @@ form .schedule {
   /* --square-size: 10px; */
   --square-gap: 5px;
   /* --square-gap: 5px; */
-  --week-width: calc(var(--square-size) + var(--square-gap));
+  --week-height: calc(var(--square-size) + var(--square-gap));
 }
 
 /* we start by naming each area of the graph*/
@@ -369,37 +387,56 @@ areas of a grid fall.*/
   grid-area: months;
   display: grid;
   /*this made it horizontal*/
-  grid-template-columns:
-    calc(var(--week-width) * 4) /* Jan */
-    calc(var(--week-width) * 4) /* Feb */
-    calc(var(--week-width) * 4) /* Mar */
-    calc(var(--week-width) * 5) /* Apr */
-    calc(var(--week-width) * 4) /* May */
-    calc(var(--week-width) * 4) /* Jun */
-    calc(var(--week-width) * 5) /* Jul */
-    calc(var(--week-width) * 4) /* Aug */
-    calc(var(--week-width) * 4) /* Sep */
-    calc(var(--week-width) * 5) /* Oct */
-    calc(var(--week-width) * 4) /* Nov */
-    calc(var(--week-width) * 5) /* Dec */;
-  margin-bottom: -15px;
+  /* grid-template-columns:
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 5) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 5) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 5) 
+    calc(var(--week-width) * 4) 
+    calc(var(--week-width) * 5); */
+
+  /* margin-bottom: -15px; */
+  grid-template-rows:
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 5)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 5)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 5)
+    calc(var(--week-height) * 4)
+    calc(var(--week-height) * 5);
 }
 
 .days {
   grid-area: days;
   display: grid;
-  grid-template-rows: repeat(7, var(--square-size));
+  /* grid-template-rows: repeat(7, var(--square-size)); */
+  grid-template-columns: repeat(7, var(--square-size));
   gap: var(--square-gap);
-  margin-right: -40px;
+  /* margin-right: -40px; */
+  margin-bottom: -10px;
 }
 
 .squares {
   grid-area: squares;
   display: grid;
   gap: var(--square-gap);
-  grid-template-rows: repeat(7, var(--square-size));
+  /* grid-template-rows: repeat(7, var(--square-size));
   grid-auto-flow: column;
-  grid-auto-columns: var(--square-size);
+  grid-auto-columns: var(--square-size); */
+  grid-template-columns: repeat(7, var(--square-size));
+  grid-auto-flow: row;
+  grid-auto-rows: var(--square-size);
 }
 
 /* using these names, we can write out how we want the areas to be laid out*/
@@ -414,26 +451,22 @@ areas of a grid fall.*/
 .graph {
   display: inline-grid;
   grid-template-areas:
-    "empty months"
-    "days squares";
+    "empty days"
+    "months squares";
   gap: 10px;
-  grid-template-columns: auto 1fr;
+  /* grid-template-columns: auto 1fr; */
+  grid-template-columns: 10% 1fr;
+
+  /* grid-template-rows: auto 1fr; */
   padding: 20px;
-  /* border: 1px #e1e4e8 solid; */
-  /* margin: 20px; */
 }
 
-.days li:nth-child(odd) {
+.days li:nth-child(even) {
   visibility: hidden;
 }
 
 .squares li {
   background-color: #ebedf0;
-}
-
-.squares li[data-level="4"] {
-  /* background-color: #196127; */
-  background-color: rgb(228, 228, 228);
 }
 
 .squares li[class="amazing"] {
@@ -452,8 +485,12 @@ areas of a grid fall.*/
   background-color: var(--seafoam);
 }
 
+.squares li[class="tired"] {
+  background-color: var(--lochness);
+}
+
 .squares li[class="blah"] {
-  background-color: var(--graphite);
+  background-color: var(--grafite);
 }
 
 .squares li[class="sad"] {
@@ -545,7 +582,7 @@ This could probably be improved with javascript/relying on real data*/
 
 .goalsForm input {
   /* border: none; */
-  border: 1px solid var(--graphitetransparent);
+  border: 1px solid var(--grafitetransparent);
 }
 
 .goalsForm input:focus {
@@ -583,3 +620,11 @@ This could probably be improved with javascript/relying on real data*/
 /* .hidden {
   background-color: red;
 } */
+
+.musicplayer {
+  /* padding: 10px; */
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 275px;
+  overflow: hidden;
+}

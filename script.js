@@ -665,7 +665,13 @@ yearlyList.addEventListener('click', (e) => {
 // run on pageload
 restoreFromLocalStorage();
 
+// music
 
+// const girlstudying = document.querySelector('.girlstudying');
+// console.log(girlstudying);
+
+// const cookie = document.querySelector('.cookiePolicy');
+// console.log(cookie);
 
 
 
