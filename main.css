@@ -102,7 +102,8 @@ body {
 .moodtrackingsection {
   border: 2px solid var(--razzleberry);
   border-radius: var(--radius);
-  height: 600px;
+  /*make section scrollable/shorter*/
+  height: 500px;
   overflow: scroll;
 }
 
@@ -627,4 +628,16 @@ This could probably be improved with javascript/relying on real data*/
   padding-right: 10px;
   height: 275px;
   overflow: hidden;
+}
+
+/* timer section*/
+
+.timeroutputsection {
+  border: 2px solid var(--grafite);
+  border-radius: var(--radius);
+}
+
+.timersection {
+  border: 2px solid var(--phoenix);
+  border-radius: var(--radius);
 }
