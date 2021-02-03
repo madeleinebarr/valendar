@@ -225,6 +225,32 @@ body {
   border-radius: var(--radius);
 }
 
+.timeTable {
+  padding: 10px;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.timersection table,
+th,
+td {
+  border: 1px solid #e7e7e7;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.timersection td {
+  height: 50px;
+}
+
+.timersection th {
+  font-weight: 400;
+}
+
+.timerslot {
+  background-color: var(--peachytransparent);
+}
+
 /* schedule section */
 
 .schedulelayout {
@@ -259,7 +285,7 @@ td {
 }
 
 .scheduleTable td {
-  height: 25px;
+  height: 30px;
   width: 100px;
 }
 
