@@ -2,7 +2,6 @@
 
 const datebar = document.querySelector('.datebar');
 const todaysdate = document.createElement('p');
-// todaysdate.classList.add('centertext', 'todaysdate');
 todaysdate.classList.add('todaysdate');
 
 
@@ -36,7 +35,7 @@ todaysdate.insertAdjacentElement('beforebegin', todaysweekday);
 // converts current time to milliseconds since unix epoch
 const nowMS = Date.now();
 
-// constructs new Date with the current year, January(0) 1
+// constructs new Date with the current year, January(index 0), 1st
 // converts to milliseconds with .getTime()
 const yearStartMS = new Date(new Date().getFullYear(), 0, 1).getTime();
 
@@ -679,83 +678,7 @@ restoreFromLocalStorage();
 
 
 
-// timer that works but doesn't let you pause and restart
 
-// this code works but we're trying to use clearInterval to stop the timer from going
-// function toggleTimer() {
-//   const startTime = new Date().getTime();
-//   let counter = setInterval(function() {
-//     let now = new Date().getTime();
-
-//     let distance = now - startTime;
-
-//     let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//     let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//     let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-//     timer.innerHTML = `${days < 10? '0' + days: days}:${hours < 10? '0' + hours: hours}:${minutes < 10? '0' + minutes: minutes}:${seconds < 10? '0' + seconds : seconds}`;
-//   }, 1000);
-// }
-
-// trying to use clearInterval to stop the timer from going.. second timer that also works but not with pausing
-
-// const timer = document.querySelector('.timer');
-
-// let startTime;
-// let counter, hoursElapsed, minutesElapsed, secondsElapsed;
-// let hoursAtStop, minutesAtStop;
-// let endTime;
-// let timeElapsed = 0;
-// let distance = 0;
-// let distanceAtStop = 0;
-
-// let msPerSecond;
-
-// let cumulativeSeconds = 0;
-
-// function startTimer() {
-//   startTime = new Date().getTime(); 
-//   counter = setInterval(function() {
-//     let now = new Date().getTime(); 
-
-//     distance = now - startTime; // ms
-//     hoursElapsed = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//     minutesElapsed = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//     secondsElapsed = Math.floor((distance % (1000 * 60)) / 1000); 
-
-
-//     timer.innerHTML = `${hoursElapsed}:${minutesElapsed}:${secondsElapsed}`;
-//   }, 1000);
-// }
-
-// function stopTimer() {
-//   clearInterval(counter);
-//   hoursAtStop = hoursElapsed;
-//   minutesAtStop = minutesElapsed;
-//   distanceAtStop = distance;
-//   endTime = new Date().getTime();
-//   timeElapsed = endTime - startTime;
-//   cumulativeSeconds += Math.floor((timeElapsed % (1000 * 60)) / 1000);
-
-//   console.log(cumulativeSeconds);
-
-
-// }
-
-// const startButton = document.querySelector('.startButton');
-// const stopButton = document.querySelector('.stopButton');
-
-// startButton.addEventListener('click', startTimer);
-// stopButton.addEventListener('click', stopTimer);
-
-// we can safe this if we need to use it in the table to show the days!
-// let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-// third timer-- using notes from wes bos
-// lets try to do seconds and minutes first
-
-// store interval in its own variable
 
 let counter;
 let secondsElapsed; 
@@ -768,12 +691,7 @@ let timerGoing = false;
 let timerItems = [];
 
 const timerDisplay = document.querySelector('.timerDisplay');
-// timerDisplay.textContent = '00:00';
 
-// could do a selector to show what the time was for your last sprint
-
-// const startButton = document.querySelector('.startButton');
-// const stopButton = document.querySelector('.stopButton');
 
 
 
@@ -783,14 +701,12 @@ function startTimer() {
   clearInterval(counter);
   const startTime = Date.now();
   
-  // timerGoing = true;
+  
   timerGoing = !timerGoing;
   
 
   displayTimeElapsed(cumulativeSeconds);
   
-  // const then = now + timeElapsed;
-
   counter = setInterval(() => {
     segmentSeconds = Math.round((Date.now() - startTime) / 1000);
     secondsElapsed = segmentSeconds + cumulativeSeconds;
@@ -801,8 +717,7 @@ function startTimer() {
 }
 
 function displayTimeElapsed(seconds) {
-    // console.log(seconds);
-    // const hours = Math.floor(seconds/60/60);
+    
     const hours = Math.floor(seconds/(60*60));
     const minutes = Math.floor(seconds/60) % 60;
     const remainderSeconds = seconds % 60;
@@ -815,7 +730,6 @@ function stopTimer() {
   clearInterval(counter);
   
   cumulativeSeconds = secondsElapsed;
-  // timerGoing = false;
   timerGoing = !timerGoing;
   const stopTime = Date.now();
   console.log(stopTime);
@@ -830,7 +744,6 @@ function toggle(){
       stopTimer();
       playButton.textContent = '►';
       saveTime();
-      // displayTimes();
       
     }
     
@@ -857,20 +770,14 @@ function saveTime() {
   const pushTimerItems = () => {
     timerItems.push(timerItem);
     timeTable.dispatchEvent(new CustomEvent('timerItemsUpdated'));
-    // console.log(timerItems);
 
   }
 
-  // this is a way to get the table to show the correct amount of "all time" seconds
-  // i think it would be better to do this in a different section...
-  // i think i should save to local storage first...
-  // allTimeTime += timerItem.segmentSeconds;
-  // console.log(`All time counter: ${allTimeTime}`);
 
 
 
   pushTimerItems();
-  // displayTimes();
+  
 }
 
 const todaySlot = document.querySelector('.todaySlot');
@@ -886,11 +793,6 @@ allTimeSlot.textContent = 0;
 
 
 function displayTimerItems() {
-  // console.log('displaying timer items!');
-
-  // function reducerFunction(accumulator, timerItem) {
-  //   return accumulator + timerItem.segmentSeconds;
-  // }
 
   function formatSeconds(seconds, element) {
     const hours = Math.floor(seconds/(60*60));
@@ -906,7 +808,6 @@ function displayTimerItems() {
   }, 0);
 
 
-  // allTimeSlot.textContent = allTimeTotal;
 
   formatSeconds(allTimeTotal, allTimeSlot);
 
@@ -919,7 +820,7 @@ function displayTimerItems() {
     let timerItemDate = new Date(timerItem.id);
     let timerItemYear = timerItemDate.getFullYear();
     return timerItemYear === todayYear;
-    // return timerItem.segmentSeconds === 5;
+  
     
     
   })
@@ -928,12 +829,10 @@ function displayTimerItems() {
     return accumulator + timerItem.segmentSeconds
   }, 0);
 
-  // thisYearSlot.textContent = thisYearTotal;
   formatSeconds(thisYearTotal, thisYearSlot);
 
   // handling month case 
   let todayMonth = today.getMonth();
-  // console.log(todayMonth);
 
   const thisMonthArray = timerItems.filter(timerItem => {
     let timerItemDate = new Date(timerItem.id);
@@ -942,13 +841,11 @@ function displayTimerItems() {
     return timerItemMonth === todayMonth && timerItemYear === todayYear;
   })
 
-  // console.log(thisMonthArray)
 
   thisMonthTotal = thisYearArray.reduce(function(accumulator, timerItem) {
     return accumulator + timerItem.segmentSeconds
   }, 0);
 
-  // thisMonthSlot.textContent = thisMonthTotal;
   formatSeconds(thisMonthTotal, thisMonthSlot);
 
   // handling the today case
@@ -967,7 +864,7 @@ function displayTimerItems() {
     return accumulator + timerItem.segmentSeconds
   }, 0);
 
-  // todaySlot.textContent = todayTotal;
+  
   formatSeconds(todayTotal, todaySlot);
   
 
@@ -989,48 +886,11 @@ function restoreTimerItemsFromLocalStorage() {
 
 
 
-// function displayTimes() {
-//   let today = String(new Date(Date.now())).slice(0, 15);
-//   console.log(timerItems);
-  
-//   timerItems.forEach((timerItem) => {
-//     console.log(timerItem.id);
-//     console.log(timerItem.segmentSeconds);
-//     allTimeTime = allTimeTime + timerItem.segmentSeconds;
-//     console.log(allTimeTime);
-
-//     // allTimeTime += timerItem.segmentSeconds;
-//     // console.log(allTimeTime);
-
-//     // let msDate = parseInt(timerItem.id);
-//     // let date = String(new Date(msDate)).slice(0, 15);
-
-//     // console.log(date);
-//     // console.log(today);
-//     // console.log(date === today);
-
-    
-
-
-
-//   })
-
-
-// }
-
-
-// you don't need these if you have a toggle button
-// startButton.addEventListener('click', startTimer);
-// stopButton.addEventListener('click', stopTimer);
-
-
 playButton.addEventListener('click', toggle);
 timeTable.addEventListener('timerItemsUpdated', displayTimerItems);
 timeTable.addEventListener('timerItemsUpdated', mirrorTimerItemsToLocalStorage);
 
-// showing how long you've coded for 
 
-// adding a reset button
 
 restoreTimerItemsFromLocalStorage();
 
