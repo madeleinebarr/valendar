@@ -308,6 +308,16 @@ td {
 
 .scheduleForm input {
   width: 60%;
+  /* border: 1px solid var(--grapefizz); */
+  border: none;
+  background: transparent;
+}
+
+.scheduleForm input:focus {
+  outline: none;
+  /* border: 1px solid var(--koolaid); */
+  color: var(--grapefizz);
+  border: none;
 }
 
 .scheduledEvent .scheduleItem {
@@ -455,3 +465,10 @@ td {
 .squares li[class="anxious"] {
   background-color: var(--phoenix);
 }
+
+.clicked {
+    color: white;
+    background-color: var(--grapefizz);
+}
+
+

@@ -94,6 +94,7 @@ yearPBinside.style.width = `${yearPercentage}%`;
 
 // SCHEDULE SECTION
 
+
 // creating the table
 const scheduleLayout = document.querySelector('.schedulelayout');
 
@@ -189,6 +190,7 @@ scheduleDaysArray.forEach((day) => {
       scheduleList.innerHTML = html;
       scheduleForm.classList.add('hidden');
       
+      
       scheduleSlot.classList.add('scheduledEvent');
 
       // adding time label
@@ -236,6 +238,24 @@ scheduleDaysArray.forEach((day) => {
       // scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
     }
 
+    // function clickScheduleItem(e) {
+    //   scheduleSlot.classList.add('clicked');
+    //   console.log('I was clicked');
+      
+    // }
+
+    // function removeClick(e) {
+    //   // if(e.target != document.getElementsByClassName('clicked')) {
+    //   //   scheduleSlot.classList.remove('clicked');
+    //   // }
+    //   console.log('removing click');
+    // }
+
+    // function deleteScheduleItem(e) {
+    //     scheduleSlot.classList.add('hidden');
+        
+    // }
+
 
     // if you wanted you could add delete schedule item functionality with a button
     // and also mark as complete functionality 
@@ -250,6 +270,7 @@ scheduleDaysArray.forEach((day) => {
       let data = e.target.id;
       e.dataTransfer.setData("text", data);
       let giveSlot = this.parentElement.classList[3];
+      scheduleSlot.classList.remove('clicked');
     
       function deleteItem(id) {
         scheduleItems[giveSlot] = scheduleItems[giveSlot].filter((item) => item.id !== id);
@@ -311,12 +332,20 @@ scheduleDaysArray.forEach((day) => {
       //   scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
       // }
       // scheduleSlot.insertAdjacentElement('afterbegin', timeLabel);
+
+  
       
       
     }
 
 
     scheduleSlot.addEventListener('dblclick', createEvent);
+    // scheduleSlot.addEventListener('click', clickScheduleItem);
+
+    // scheduleList.addEventListener('click', clickScheduleItem);
+
+    
+    // scheduleLayout.addEventListener('click', removeClick);
 
     scheduleForm.addEventListener('submit', handleScheduleSubmit);
     scheduleList.addEventListener('scheduleItemsUpdated', displayScheduleItems);
@@ -418,6 +447,32 @@ function restoreMoodFromLocalStorage() {
   }
 } 
 
+// function setMoodItems() {
+//       for (let i=0; i < moods.length; i++) {
+//         let j = Math.ceil(Math.random() * moods.length-1);
+//         console.log(moods[j].value);
+    
+//         const name = moods[j].value;
+//         if (!name) { return; }
+
+//         const moodItem = {
+//           name
+//         };
+    
+//         const pushMoodItems = () => {
+//           moodItems.push(moodItem);
+//         }
+
+//         pushMoodItems();
+//         }
+
+//       // squares.dispatchEvent(new CustomEvent('moodItemsUpdated'));
+      
+      
+// }
+
+// setMoodItems();
+
 
 
 
@@ -431,7 +486,7 @@ squares.addEventListener('moodItemsUpdated', mirrorMoodToLocalStorage);
 restoreMoodFromLocalStorage();
 
 
-// // **GOALS LIST FUNCTIONALITY I LUV U MADILE**
+// // **GOALS LIST FUNCTIONALITY**
 
 const dailyGoalsForm = document.querySelector('.dailyGoals');
 const dailyList = document.querySelector('.dailyList');
@@ -537,6 +592,8 @@ function displayYearlyItems() {
   </li>`).join('');
   yearlyList.innerHTML = html;
 }
+
+
 
 function mirrorToLocalStorage() {
   if (this.classList[0] === 'dailyList') {
@@ -765,6 +822,7 @@ function saveTime() {
   }
 
   console.log(timerItem);
+  console.log('did this change?');
 
 
   const pushTimerItems = () => {
@@ -894,3 +952,38 @@ timeTable.addEventListener('timerItemsUpdated', mirrorTimerItemsToLocalStorage);
 
 restoreTimerItemsFromLocalStorage();
 
+/*quote functionality*/
+
+function Quote(quote, author) {
+  this.quote = quote;
+  this.author = author;
+}
+
+quotes = [
+  new Quote("The sight of snow made her think how beautiful and short life is and how, in spite of all their enmities, people have so very much in common; measured against eternity and the greatness of creation, the world in which they lived was narrow. That's why snow drew people together. It was as if snow cast a veil over hatreds, greed, and wrath and made everyone feel close to one another.", "Orhan Pamuk, Snow"),
+  new Quote("Allegory could not exist if truth were accessible: as a mode of expression it arises in perpetual response to the human condition of being exiled from the truth that it would embrace.", "Bainard Cowan"),
+  new Quote("An appreciation of the transience of things, and the concern to resuce them for eternity, is one of the strongest impulses in allegory.", "Walter Benjamin"),
+  new Quote("The most persistent principles of the universe are accident and error.", "Frank Herbert, Dune"),
+]
+
+const quoteSection = document.querySelector('.quotesection');
+quoteSection.innerHTML = `
+<p class="quotetext">It's time for lunch soon.
+</p>
+<p class="authorbook">-Madeleine Barr, 2021</p>
+`;
+// quoteSection.textContent="hello";
+
+function getQuote(array) {
+  let j = Math.ceil(Math.random() * array.length - 1);
+  let selectedQuote = array[j];
+
+  quoteSection.innerHTML = `
+<p class="quotetext">${selectedQuote.quote}
+</p>
+<p class="authorbook">-${selectedQuote.author}</p>
+`;
+  
+}
+
+getQuote(quotes);
