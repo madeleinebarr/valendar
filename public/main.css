@@ -41,6 +41,40 @@ body {
   grid-template-columns: 20% 1fr 20%;
 }
 
+@media only screen and (max-width: 1000px) {
+  .columnlayout {
+    grid-template-areas:
+      "day"
+      "schedule"
+      "mood";
+    grid-template-columns: 1fr;
+  }
+
+  .day {
+    max-width: 300px;
+    display: block;
+    margin: auto;
+  }
+
+  .schedule {
+    max-width: 500px;
+  }
+
+  .goalssection {
+    font-size: 10px;
+    overflow: scroll;
+  }
+
+  .schedule {
+    font-size: 10px;
+    overflow: scroll;
+  }
+
+  .mood {
+    max-width: 300px;
+  }
+}
+
 .day {
   grid-area: day;
 }
@@ -51,6 +85,8 @@ body {
 
 .mood {
   grid-area: mood;
+  display: block;
+  margin: auto;
 }
 
 .datebar {
@@ -96,6 +132,7 @@ body {
 .dailyimage {
   border: 2px solid var(--koolaid);
   border-radius: var(--radius);
+  /* height: 280px; */
 }
 
 .dailyimage img {
@@ -109,7 +146,8 @@ body {
 .quotesection {
   border: 2px solid var(--grafite);
   border-radius: var(--radius);
-  height: 317px;
+  height: 325px;
+  /* height: auto; */
 }
 
 .quotetext {
@@ -127,6 +165,7 @@ body {
   display: grid;
   grid-template-areas: "daily weekly monthly yearly";
   grid-template-columns: repeat(4, 1fr);
+  /* min-height: 145px; */
 }
 
 .daily {
@@ -347,7 +386,7 @@ td {
   border: 2px solid var(--razzleberry);
   border-radius: var(--radius);
   /*make section scrollable/shorter*/
-  height: 500px;
+  height: 515px;
   overflow: scroll;
 }
 
@@ -467,8 +506,6 @@ td {
 }
 
 .clicked {
-    color: white;
-    background-color: var(--grapefizz);
+  color: white;
+  background-color: var(--grapefizz);
 }
-
-
