@@ -145,6 +145,8 @@ scheduleDaysArray.forEach((day) => {
         </form>
         <ul class="scheduleList${time}${day} scheduleList"></ul>
     `;
+
+
     
     
     timeRow.appendChild(scheduleSlotTD);
@@ -158,6 +160,25 @@ scheduleDaysArray.forEach((day) => {
     const scheduleList = document.querySelector(`.scheduleList${time}${day}`);
     const scheduleSlot = document.querySelector(`.scheduleSlot${time}${day}`);
     // const eventDiv = document.querySelector(`.eventDiv`)
+
+    // adding example items to schedule
+
+    // function preLoadScheduleItems() {
+    //     const scheduleItem = {
+    //       name: "hike the ledges",
+    //       id: 1,
+    //       complete: false,
+    //       timedayslot: "1PMSun"
+    //     }
+
+    //     scheduleItems[timedayslot].push(scheduleItem);
+    //     scheduleList.dispatchEvent(new CustomEvent('scheduleItemsUpdated'));
+    // }
+
+    // preLoadScheduleItems();
+
+    console.log(timedayslot);
+
     
     function handleScheduleSubmit(e) {
       e.preventDefault();
@@ -366,6 +387,12 @@ scheduleDaysArray.forEach((day) => {
 
 
 
+
+
+// adding example schedule item
+
+
+
 // MOOD TRACKER SECTION
 
 // javascript for creating the squares
@@ -373,7 +400,7 @@ scheduleDaysArray.forEach((day) => {
 
 const squares = document.querySelector('.squares');
 
-for(let i=1; i <= 365; i++) {
+for(let i=0; i <= 365; i++) {
   const square = document.createElement('li');
   squares.appendChild(square);
 }
@@ -386,6 +413,28 @@ const moods = moodTrackerForm.querySelectorAll('input[type="radio"]');
 
 // creating a place to store our daily moods
 let moodItems = [];
+
+function preLoadMoodItems() {
+  if(moodItems.length === 0) {
+
+    let dayInYear = Math.ceil((yearPercentage/100) * 365);
+
+    for(let i = 0; i < dayInYear; i++) {
+      let randomMood = Math.floor(Math.random() * moods.length);
+      const moodItem = {
+        name: moods[randomMood].value,
+        id: i,
+      }
+
+      moodItems.push(moodItem);
+    }
+
+    
+    
+
+    squares.dispatchEvent(new CustomEvent('moodItemsUpdated'));
+  }
+}
 
 // create a handleSubmit function for the mood tracker
 
@@ -483,6 +532,7 @@ moodTrackerForm.addEventListener('submit', handleMoodSubmit);
 squares.addEventListener('moodItemsUpdated', displayMoodSquare);
 squares.addEventListener('moodItemsUpdated', mirrorMoodToLocalStorage);
 
+// window.onload = preLoadMoodItems;
 restoreMoodFromLocalStorage();
 
 
@@ -507,6 +557,73 @@ let dailyItems = [];
 let weeklyItems = [];
 let monthlyItems = [];
 let yearlyItems = [];
+
+
+
+function preLoadExampleItems() {
+
+
+  if(yearlyItems.length === 0) {
+
+    const item = {
+      name: "read War and Peace 📚",
+      id: 1,
+      complete: false,
+    };
+
+    const item1 = {
+      name: "record family stories",
+      id: 6, 
+      complete: false,
+    };
+    
+    yearlyItems.push(item, item1);
+    yearlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+    
+  }
+
+  if(monthlyItems.length === 0) {
+    const item = {
+      name: "Learn redux",
+      id: 5,
+      complete: false,
+    }
+
+    monthlyItems.push(item);
+    monthlyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  }
+
+  if(weeklyItems.length === 0) {
+    const item = {
+      name: "Figma prototype for new project 🎨",
+      id: 4,
+      complete: false,
+    }
+
+    weeklyItems.push(item);
+    weeklyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  }
+
+  if(dailyItems.length === 0) {
+    const item = {
+      name: "find closest trail 🥾",
+      id: 2,
+      complete: false,
+    };
+
+    const item1 = {
+      name: "review Drew's product roadmap",
+      id: 3,
+      complete: false,
+    }
+
+    dailyItems.push(item, item1);
+    dailyList.dispatchEvent(new CustomEvent('itemsUpdated'));
+  }
+ 
+}
+
+// preLoadExampleItems();
 
 // listen for a submit event on the form and do a bunch of stuff when that happens
 // here, the e being passed in is the event
@@ -547,6 +664,7 @@ function handleSubmit(e) {
   // clear the form
   e.target.reset();
 }
+
 
 function displayDailyItems() {
   const html = dailyItems.map((item) => `<li class="shopping-item">
@@ -690,6 +808,7 @@ yearlyGoalsForm.addEventListener('submit', handleSubmit);
 yearlyList.addEventListener('itemsUpdated', displayYearlyItems);
 yearlyList.addEventListener('itemsUpdated', mirrorToLocalStorage);
 
+
 dailyList.addEventListener('click', (e) => {
   const id = parseInt(e.target.value);
   if (e.target.matches('button')) {
@@ -731,6 +850,16 @@ yearlyList.addEventListener('click', (e) => {
 });
 
 // run on pageload
+
+
+
+function loadExamples () {
+  preLoadExampleItems();
+  preLoadMoodItems();
+}
+
+// window.onload(preLoadExampleItems());
+window.onload = loadExamples;
 restoreFromLocalStorage();
 
 
@@ -987,3 +1116,4 @@ function getQuote(array) {
 }
 
 getQuote(quotes);
+
